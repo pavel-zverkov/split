@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">split</string>
+    <string-array name="qualifications">
+        <item>б/р</item>
+        <item>III юн</item>
+        <item>II юн</item>
+        <item>I юн</item>
+        <item>III</item>
+        <item>II</item>
+        <item>I</item>
+        <item>КМС</item>
+        <item>МС</item>
+    </string-array>
+</resources>

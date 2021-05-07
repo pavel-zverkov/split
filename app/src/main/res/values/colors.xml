@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="asphalt">#242B33</color>
+    <color name="night">#13191F</color>
+    <color name="yellow">#F1BF0F</color>
+    <color name="cloud">#ECF0F1</color>
+    <color name="silver">#BDC3C7</color>
+    <color name="green">#11EF0D</color>
+    <color name="dark_green">#27AE60</color>
+    <color name="grey">#95A5A6</color>
+    <color name="asbestos">#4B5354</color>
+    <color name="red">#F21E08</color>
+    <color name="dark_red">#C0392B</color>
+    <color name="blue">#007FF4</color>
+    <color name="dark_blue">#2980B9</color>
+</resources>
