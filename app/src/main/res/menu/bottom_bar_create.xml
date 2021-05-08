@@ -3,25 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/filters"
+        android:id="@+id/filters_create"
         android:icon="@drawable/ic_filters"
         android:title="filters"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/club"
+        android:id="@+id/club_create"
         android:icon="@drawable/ic_club"
         android:title="club"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/calendar"
+        android:id="@+id/play_list"
         android:icon="@drawable/ic_start_list"
         android:title="calendar"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/settings"
+        android:id="@+id/settings_create"
         android:icon="@drawable/ic_settings"
         android:title="settings"
         app:showAsAction="always"/>

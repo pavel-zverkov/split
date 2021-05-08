@@ -28,4 +28,13 @@
         <item name="android:textSize">17sp</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+    <style name="tab_layout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="tabTextColor">@color/asbestos</item>
+        <item name="tabSelectedTextColor">@color/silver</item>
+        <item name="selectorSize">0dp</item>
+    </style>
 </resources>
