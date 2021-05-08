@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    MenuItem menuItem;
+    int float_button_mode;
     DataBase club;
     ClubAdapter adapter;
 
@@ -26,10 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         open_DB();
-        adapter = new ClubAdapter(this, club);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        //Menu menu = bottomNavigationView.getMenu();
 
         FloatingActionButton float_button = (FloatingActionButton) findViewById(R.id.float_button);
         float_button.setOnClickListener(this);
@@ -44,13 +42,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.club:
                         selectedFragment = new ClubFragment(MainActivity.this, club, adapter);
+                        float_button_mode = R.id.club;
+                        float_button.setImageResource(R.drawable.ic_big_plus);
                         break;
                     case R.id.calendar:
                         selectedFragment = new CalendarFragment();
+                        float_button_mode = R.id.calendar;
+                        float_button.setImageResource(R.drawable.ic_watch);
                         break;
                     case R.id.settings:
                         break;
                 }
+                
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
                 Log.d("myLog", "Replace");
@@ -63,18 +66,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.float_button:
-                add_person();
-                break;
+                switch (float_button_mode){
+                    case R.id.club:
+                        add_person();
+                        break;
+                    case R.id.calendar:
+                        add_activity();
+                        break;
+                }
+
         }
     }
 
     public void add_person() {
+        Log.d("myLog", String.valueOf(this) + " " + String.valueOf(MainActivity.this));
         AddPerson bottomSheetDialog = AddPerson.newInstance(this, club, adapter);
+        bottomSheetDialog.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
+    }
+
+    public void add_activity() {
+        Log.d("myLog", String.valueOf(this) + " " + String.valueOf(MainActivity.this));
+        AddActivity bottomSheetDialog = AddActivity.newInstance(this);
         bottomSheetDialog.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
     }
 
     public void open_DB(){
         club = new DataBase(this);
         club.open();
+        adapter = new ClubAdapter(this, club);
     }
 }
