@@ -3,6 +3,7 @@ package ru.zverkov_studio.split;
 
 import androidx.annotation.Nullable;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ public class ClubFragment extends Fragment {
     ClubAdapter adapter;
     Context mContext;
     View club_fragment;
+
 
     public ClubFragment(Context context, DataBase dataBase, ClubAdapter clubAdapter){
         club = dataBase;

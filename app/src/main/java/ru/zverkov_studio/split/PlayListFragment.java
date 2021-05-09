@@ -10,21 +10,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayListFragment extends Fragment {
 
     final String TAG = "myLog";
     Context mContext;
     View play_list_fragment;
+    private ArrayList<String> content = new ArrayList<String>();
 
     public PlayListFragment(Context context){
         mContext = context;
@@ -34,13 +38,15 @@ public class PlayListFragment extends Fragment {
         play_list_fragment = inflater.inflate(R.layout.play_list_fragment, container, false);
         Log.d("myLog", "Inflate club_fragment");
 
+        content.add("Start");
+        content.add("Finish");
+
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getFragmentManager(), mContext));
+                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext));
 
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = play_list_fragment.findViewById(R.id.sliding_tabs);
-        tabLayout.setSelectedTabIndicatorHeight(0);
         tabLayout.setupWithViewPager(viewPager);
 
         return play_list_fragment;
@@ -48,15 +54,14 @@ public class PlayListFragment extends Fragment {
 
     public static class PageFragment extends Fragment {
         public static final String ARG_PAGE = "ARG_PAGE";
+        public static final String CNT_PAGE = "PAGE_CONTENT";
 
         private int mPage;
+        private ArrayList<String> mContent;
 
-        public static PageFragment newInstance(int page) {
-            Bundle args = new Bundle();
-            args.putInt(ARG_PAGE, page);
-            PageFragment fragment = new PageFragment();
-            fragment.setArguments(args);
-            return fragment;
+        public PageFragment (int page, ArrayList<String> content) {
+            mPage = page;
+            mContent = content;
         }
 
         @Override public void onCreate(Bundle savedInstanceState) {
@@ -68,9 +73,21 @@ public class PlayListFragment extends Fragment {
 
         @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                            Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.persons_list, container, false);
-            TextView textView = (TextView) view;
-            textView.setText("Fragment #" + mPage);
+            View view = null;
+            switch (mPage){
+                case 1:
+                    view = inflater.inflate(R.layout.persons_page, container, false);
+                    TextView textView = (TextView) view;
+                    textView.setText("Fragment #" + mPage);
+                    break;
+                case 2:
+                    view = inflater.inflate(R.layout.track_page, container, false);
+                    RecyclerView track_list = view.findViewById(R.id.track_list);
+                    track_list.setLayoutManager(new LinearLayoutManager(getContext()));
+                    track_list.setAdapter(new TrackAdapter(getContext(), mContent, R.drawable.ic_run));
+                    break;
+            }
+
             return view;
         }
     }
@@ -90,7 +107,7 @@ public class PlayListFragment extends Fragment {
         }
 
         @Override public Fragment getItem(int position) {
-            return PageFragment.newInstance(position + 1);
+            return new PageFragment(position + 1, content);
         }
 
         @Override public CharSequence getPageTitle(int position) {

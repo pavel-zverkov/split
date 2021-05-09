@@ -2,17 +2,23 @@ package ru.zverkov_studio.split;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
@@ -59,6 +65,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
 
         final String item = mCursor.getString(mCursor.getColumnIndex(COLUMN_ID));
         holder.id = item;
+
+        if (position == 0){
+            holder.card_item.setBackground(null);
+        }
 
         if (itemsPendingRemoval.contains(item)) {
             Log.d("myLog", "itemsPendingRemoval - Position" + String.valueOf(position) + " Item - " + item);

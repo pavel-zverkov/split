@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,16 +18,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class CreateActivity extends AppCompatActivity implements View.OnClickListener {
 
     int float_button_mode;
+    DataBase club;
+    ClubAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_activity);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_create);
+        open_DB();
 
         FloatingActionButton float_button = (FloatingActionButton) findViewById(R.id.float_button_create);
         float_button.setOnClickListener(this);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_create);
+        bottomNavigationView.setSelectedItemId(R.id.play_list);
+        float_button.setImageResource(R.drawable.ic_play);
+        float_button_mode = R.id.play_list;
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
+                new PlayListFragment(CreateActivity.this)).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -37,7 +47,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                     case R.id.filters_create:
                         break;
                     case R.id.club_create:
-                        //selectedFragment = new ClubFragment(MainActivity.this, club, adapter);
+                        selectedFragment = new ClubFragment(CreateActivity.this, club, adapter);
                         float_button_mode = R.id.club_create;
                         float_button.setImageResource(R.drawable.ic_big_plus);
                         break;
@@ -61,5 +71,11 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void open_DB(){
+        club = new DataBase(CreateActivity.this);
+        club.open();
+        adapter = new ClubAdapter(CreateActivity.this, club);
     }
 }

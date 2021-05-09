@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,10 +29,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         open_DB();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-
         FloatingActionButton float_button = (FloatingActionButton) findViewById(R.id.float_button);
         float_button.setOnClickListener(this);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.calendar);
+        float_button_mode = R.id.calendar;
+        float_button.setImageResource(R.drawable.ic_watch);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new CalendarFragment()).commit();
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
