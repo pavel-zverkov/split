@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -77,8 +78,14 @@ public class PlayListFragment extends Fragment {
             switch (mPage){
                 case 1:
                     view = inflater.inflate(R.layout.persons_page, container, false);
-                    TextView textView = (TextView) view;
-                    textView.setText("Fragment #" + mPage);
+                    RecyclerView persons_list = view.findViewById(R.id.persons_list);
+                    persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
+                    PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), new DBtoList(getContext()).get_data());
+                    persons_list.setAdapter(personsAdapter);
+
+                    PersonsItemTouchHelper personsItemTouchHelper = new PersonsItemTouchHelper(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(personsItemTouchHelper);
+                    itemTouchHelper.attachToRecyclerView(persons_list);
                     break;
                 case 2:
                     view = inflater.inflate(R.layout.track_page, container, false);

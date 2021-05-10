@@ -47,7 +47,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                     case R.id.filters_create:
                         break;
                     case R.id.club_create:
-                        selectedFragment = new ClubFragment(CreateActivity.this, club, adapter);
+                        selectedFragment = new ClubCreateFragment(CreateActivity.this);
                         float_button_mode = R.id.club_create;
                         float_button.setImageResource(R.drawable.ic_big_plus);
                         break;
@@ -76,6 +76,5 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     public void open_DB(){
         club = new DataBase(CreateActivity.this);
         club.open();
-        adapter = new ClubAdapter(CreateActivity.this, club);
     }
 }

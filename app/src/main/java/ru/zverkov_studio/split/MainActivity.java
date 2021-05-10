@@ -16,16 +16,27 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     int float_button_mode;
     DataBase club;
     ClubAdapter adapter;
+    ArrayList list = new ArrayList();
+    String[] row = new String[3];
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        row[0] = "hello";
+        row[1] = "world";
+        row[2] = "!";
+        list.add(row);
+        Log.d("myLog", "list" + String.valueOf(list.get(0)));
 
         open_DB();
 
