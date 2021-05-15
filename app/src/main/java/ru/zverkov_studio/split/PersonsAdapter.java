@@ -41,16 +41,18 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
     private Context mContext;
     String item;
     String[] row = new String[5];
-    ArrayList mData;
-    ArrayList activity_delete_data = new ArrayList();
+    ArrayList mData = new ArrayList();
+    ProxyList activity_data;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public PersonsAdapter(Context context, ArrayList data){
+    public PersonsAdapter(Context context, ProxyList data){
         mContext = context;
-        mData = data;
-
+        for(int i = 0; i < data.get_data().size(); i++){
+            mData.add((String[]) data.get_data().get(i));
+        }
+        activity_data = data;
     }
     @NonNull
     @Override
@@ -74,14 +76,9 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
     }
 
     public void remove(int position) {
+        activity_data.remove_from_activity((String[]) mData.get(position));
         mData.remove(position);
-        String[] add_row = row;
-        activity_delete_data.add(add_row);
         notifyItemRemoved(position);
-    }
-
-    public ArrayList get_data(){
-        return activity_delete_data;
     }
 
     @Override

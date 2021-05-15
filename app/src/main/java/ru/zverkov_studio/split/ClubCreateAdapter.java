@@ -26,7 +26,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClubCreateAdapter extends RecyclerView.Adapter<ClubCreateAdapter.ViewHolder> {
 
@@ -42,15 +44,31 @@ public class ClubCreateAdapter extends RecyclerView.Adapter<ClubCreateAdapter.Vi
     String item;
     String[] row = new String[5];
     ArrayList mData;
-    ArrayList activity_data = new ArrayList();
+    ProxyList activity_data;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public ClubCreateAdapter(Context context, ArrayList data){
+    public ClubCreateAdapter(Context context, ArrayList data, ProxyList proxy_data){
         mContext = context;
+        activity_data = proxy_data;
         mData = data;
+        ArrayList new_data = proxy_data.get_data();
+        ArrayList<Integer> copy_data = new ArrayList<Integer>();
 
+        for (int i = 0; i < new_data.size(); i++){
+            String[] new_row = new String[5];
+            String[] old_row = new String[5];
+            new_row = (String[]) (new_data.get(i));
+            for (int j = 0; j < data.size(); j++){
+                old_row = (String[]) mData.get(j);
+                if (old_row[0].equals(new_row[0])){
+                    Log.d("CREATE", "equals");
+                    mData.remove(j);
+                    break;
+                }
+            }
+        }
     }
     @NonNull
     @Override
@@ -74,14 +92,9 @@ public class ClubCreateAdapter extends RecyclerView.Adapter<ClubCreateAdapter.Vi
     }
 
     public void remove(int position) {
+        activity_data.add_to_activity((String[]) mData.get(position));
         mData.remove(position);
-        String[] add_row = row;
-        activity_data.add(add_row);
         notifyItemRemoved(position);
-    }
-
-    public ArrayList get_data(){
-        return activity_data;
     }
 
     @Override

@@ -29,9 +29,11 @@ public class PlayListFragment extends Fragment {
     final String TAG = "myLog";
     Context mContext;
     View play_list_fragment;
+    ProxyList activity_data;
     private ArrayList<String> content = new ArrayList<String>();
 
-    public PlayListFragment(Context context){
+    public PlayListFragment(Context context, ProxyList data){
+        activity_data = data;
         mContext = context;
     }
 
@@ -44,7 +46,7 @@ public class PlayListFragment extends Fragment {
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext));
+                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, activity_data));
 
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = play_list_fragment.findViewById(R.id.sliding_tabs);
@@ -59,10 +61,12 @@ public class PlayListFragment extends Fragment {
 
         private int mPage;
         private ArrayList<String> mContent;
+        private ProxyList activity_data;
 
-        public PageFragment (int page, ArrayList<String> content) {
+        public PageFragment (int page, ArrayList<String> content, ProxyList data) {
             mPage = page;
             mContent = content;
+            activity_data = data;
         }
 
         @Override public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,7 @@ public class PlayListFragment extends Fragment {
                     view = inflater.inflate(R.layout.persons_page, container, false);
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                    PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), new DBtoList(getContext()).get_data());
+                    PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), activity_data);
                     persons_list.setAdapter(personsAdapter);
 
                     PersonsItemTouchHelper personsItemTouchHelper = new PersonsItemTouchHelper(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
@@ -103,10 +107,12 @@ public class PlayListFragment extends Fragment {
         final int PAGE_COUNT = 2;
         private String tabTitles[] = new String[] { "УЧАСТНИКИ", "ДИСТАНЦИЯ" };
         private Context context;
+        ProxyList activity_data;
 
-        public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, ProxyList data) {
             super(fm);
             this.context = context;
+            activity_data = data;
         }
 
         @Override public int getCount() {
@@ -114,7 +120,7 @@ public class PlayListFragment extends Fragment {
         }
 
         @Override public Fragment getItem(int position) {
-            return new PageFragment(position + 1, content);
+            return new PageFragment(position + 1, content, activity_data);
         }
 
         @Override public CharSequence getPageTitle(int position) {

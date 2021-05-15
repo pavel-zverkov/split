@@ -26,9 +26,11 @@ public class ClubCreateFragment extends Fragment {
 
     Context mContext;
     View club_create_fragment;
+    ProxyList activity_data;
 
 
-    public ClubCreateFragment(Context context){
+    public ClubCreateFragment(Context context, ProxyList data){
+        activity_data = data;
         mContext = context;
     }
 
@@ -43,7 +45,7 @@ public class ClubCreateFragment extends Fragment {
         Log.d("myLog", "Creating recyclerview");
         RecyclerView club_list = club_create_fragment.findViewById(R.id.club_create_list);
         club_list.setLayoutManager(new LinearLayoutManager(mContext));
-        ClubCreateAdapter adapter = new ClubCreateAdapter(mContext, new DBtoList(mContext).get_data());
+        ClubCreateAdapter adapter = new ClubCreateAdapter(mContext, new DBtoList(mContext).get_data(), activity_data);
         club_list.setAdapter(adapter);
         Log.d("myLog", String.valueOf(mContext) + " " + String.valueOf(club_create_fragment.getContext()));
 
