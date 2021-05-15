@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:elevation="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/catch_time"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="0.5dp"
+        android:orientation="horizontal"
+        android:background="@drawable/track_item_background"
+        android:elevation="20dp">
+
+        <TextView
+            android:id="@+id/side_highlight"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/highlight"
+            android:backgroundTint="@color/dark_blue"/>
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/silver"
+            android:text="120"
+            android:gravity="center_vertical|right"
+            android:fontFamily="@font/roboto_black"
+            android:textSize="18sp"/>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+               <TextView
+                    android:id="@+id/sportsman_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Старт"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="17sp"
+                    android:gravity="bottom"/>
+
+               <TextView
+                    android:id="@+id/main_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Main_time"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="15sp"
+                    android:gravity="top"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/distance_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Distance_point"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto"
+                    android:layout_gravity="end"
+                    android:textSize="17sp"
+                    android:gravity="bottom"/>
+
+                <TextView
+                    android:id="@+id/lap_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Lap_time"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="15sp"
+                    android:layout_gravity="end"
+                    android:gravity="top"/>
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

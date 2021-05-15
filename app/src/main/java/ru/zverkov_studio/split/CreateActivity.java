@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +24,9 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     DataBase club;
     ClubAdapter adapter;
     ProxyList activity_data = new ProxyList();
+    BottomNavigationView bottomNavigationView;
+    BottomAppBar bottomAppBar;
+    boolean start = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,12 +38,13 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         FloatingActionButton float_button = (FloatingActionButton) findViewById(R.id.float_button_create);
         float_button.setOnClickListener(this);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_create);
+        bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_bar_create);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_create);
         bottomNavigationView.setSelectedItemId(R.id.play_list);
         float_button.setImageResource(R.drawable.ic_play);
         float_button_mode = R.id.play_list;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                new PlayListFragment(CreateActivity.this, activity_data)).commit();
+                new PlayListFragment(CreateActivity.this, activity_data, start)).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,7 +60,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                         float_button.setImageResource(R.drawable.ic_big_plus);
                         break;
                     case R.id.play_list:
-                        selectedFragment = new PlayListFragment(CreateActivity.this, activity_data);
+                        selectedFragment = new PlayListFragment(CreateActivity.this, activity_data, start);
                         float_button_mode = R.id.play_list;
                         float_button.setImageResource(R.drawable.ic_play);
                         break;
@@ -73,7 +78,22 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.float_button_create:
+                switch (float_button_mode){
+                    case R.id.club_create:
+                        break;
+                    case R.id.play_list:
+                        Log.d("CreateActivity", "Click on play");
+                        bottomNavigationView.setVisibility(View.GONE);
+                        bottomAppBar.setVisibility(View.GONE);
+                        start = true;
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
+                                new PlayListFragment(CreateActivity.this, activity_data, start)).commit();
+                        break;
+                }
 
+        }
     }
 
     public void open_DB(){

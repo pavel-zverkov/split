@@ -30,11 +30,13 @@ public class PlayListFragment extends Fragment {
     Context mContext;
     View play_list_fragment;
     ProxyList activity_data;
+    boolean mStart;
     private ArrayList<String> content = new ArrayList<String>();
 
-    public PlayListFragment(Context context, ProxyList data){
+    public PlayListFragment(Context context, ProxyList data, boolean start){
         activity_data = data;
         mContext = context;
+        mStart = start;
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class PlayListFragment extends Fragment {
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, activity_data));
+                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, activity_data, mStart));
 
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = play_list_fragment.findViewById(R.id.sliding_tabs);
@@ -60,13 +62,16 @@ public class PlayListFragment extends Fragment {
         public static final String CNT_PAGE = "PAGE_CONTENT";
 
         private int mPage;
+        boolean mode;
         private ArrayList<String> mContent;
         private ProxyList activity_data;
 
-        public PageFragment (int page, ArrayList<String> content, ProxyList data) {
+
+        public PageFragment (int page, ArrayList<String> content, ProxyList data, boolean start) {
             mPage = page;
             mContent = content;
             activity_data = data;
+            mode = start;
         }
 
         @Override public void onCreate(Bundle savedInstanceState) {
@@ -84,12 +89,19 @@ public class PlayListFragment extends Fragment {
                     view = inflater.inflate(R.layout.persons_page, container, false);
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                    PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), activity_data);
-                    persons_list.setAdapter(personsAdapter);
+                    if (!mode){
+                        PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), activity_data);
+                        persons_list.setAdapter(personsAdapter);
 
-                    PersonsItemTouchHelper personsItemTouchHelper = new PersonsItemTouchHelper(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(personsItemTouchHelper);
-                    itemTouchHelper.attachToRecyclerView(persons_list);
+                        PersonsItemTouchHelper personsItemTouchHelper = new PersonsItemTouchHelper(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
+                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(personsItemTouchHelper);
+                        itemTouchHelper.attachToRecyclerView(persons_list);
+                    }
+                    else {
+                        PersonsActivityAdapter personsAdapter = new PersonsActivityAdapter(getContext(), activity_data);
+                        persons_list.setAdapter(personsAdapter);
+                    }
+
                     break;
                 case 2:
                     view = inflater.inflate(R.layout.track_page, container, false);
@@ -107,12 +119,14 @@ public class PlayListFragment extends Fragment {
         final int PAGE_COUNT = 2;
         private String tabTitles[] = new String[] { "УЧАСТНИКИ", "ДИСТАНЦИЯ" };
         private Context context;
+        boolean mode;
         ProxyList activity_data;
 
-        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, ProxyList data) {
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, ProxyList data, boolean start) {
             super(fm);
             this.context = context;
             activity_data = data;
+            mode = start;
         }
 
         @Override public int getCount() {
@@ -120,7 +134,7 @@ public class PlayListFragment extends Fragment {
         }
 
         @Override public Fragment getItem(int position) {
-            return new PageFragment(position + 1, content, activity_data);
+            return new PageFragment(position + 1, content, activity_data, mode);
         }
 
         @Override public CharSequence getPageTitle(int position) {

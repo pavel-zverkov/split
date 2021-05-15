@@ -37,7 +37,7 @@
             app:itemIconSize="32dp"
             app:itemIconTint="@drawable/items_color"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/bottom_bar_create" />
+            app:menu="@menu/bottom_bar_create"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

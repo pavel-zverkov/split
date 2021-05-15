@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHolder> {
+public class PersonsActivityAdapter extends RecyclerView.Adapter<PersonsActivityAdapter.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
@@ -47,7 +47,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public PersonsAdapter(Context context, ProxyList data){
+    public PersonsActivityAdapter(Context context, ProxyList data){
         mContext = context;
         for(int i = 0; i < data.get_data().size(); i++){
             mData.add((String[]) data.get_data().get(i));
@@ -57,7 +57,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_activity_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,9 +66,21 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         row = (String[]) mData.get(position);
         item = row[0];
 
+        holder.point = 0;
+        holder.length = 2;
+
         holder.id = item;
-        holder.person_name.setText(row[1]);
-        holder.person_gender.setText(row[0]);
+        holder.number.setText(String.valueOf(position + 1));
+        holder.sportsman_name.setText(row[1]);
+        holder.main_time.setText("Старт");
+        holder.lap_time.setText("");
+        holder.distance_point.setText("");
+        holder.button_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Stopwatch stopwatch = new Stopwatch(holder.main_time, holder.lap_time);
+            }
+        });
     }
 
     public void change(Cursor cursor){
@@ -88,12 +100,18 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         String id;
-        TextView person_name, person_gender, number;
+        TextView sportsman_name, main_time, lap_time, distance_point, number;
+        LinearLayout button_time;
+        int point, length;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            person_name = itemView.findViewById(R.id.person_activity_name);
-            person_gender = itemView.findViewById(R.id.person_activity_gender);
+            sportsman_name = itemView.findViewById(R.id.sportsman_name);
+            main_time = itemView.findViewById(R.id.main_time);
+            lap_time = itemView.findViewById(R.id.lap_time);
+            distance_point = itemView.findViewById(R.id.distance_point);
+            number = itemView.findViewById(R.id.number);
+            button_time = itemView.findViewById(R.id.catch_time);
         }
     }
 }
