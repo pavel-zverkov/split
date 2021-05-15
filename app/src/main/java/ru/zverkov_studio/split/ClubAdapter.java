@@ -56,6 +56,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
+        for (int i = 0; i < itemsPendingRemoval.size(); i++){
+            Log.d("ITEM_REMOVAL", itemsPendingRemoval.get(i));
+        }
+
 
         final String item = mCursor.getString(mCursor.getColumnIndex(COLUMN_ID));
         holder.id = item;
