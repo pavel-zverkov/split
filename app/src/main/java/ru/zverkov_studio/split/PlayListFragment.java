@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -43,8 +45,8 @@ public class PlayListFragment extends Fragment {
         play_list_fragment = inflater.inflate(R.layout.play_list_fragment, container, false);
         Log.d("myLog", "Inflate club_fragment");
 
-        content.add("Start");
-        content.add("Finish");
+        content.add("СТАРТ");
+        content.add("ФИНИШ");
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
@@ -87,6 +89,13 @@ public class PlayListFragment extends Fragment {
             switch (mPage){
                 case 1:
                     view = inflater.inflate(R.layout.persons_page, container, false);
+                    LinearLayout attention = view.findViewById(R.id.persons_attention);
+                    if (activity_data.getCount() != 0){
+                        attention.setVisibility(View.GONE);
+                    }
+                    else{
+                        attention.setVisibility(View.VISIBLE);
+                    }
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
                     if (!mode){
@@ -107,7 +116,15 @@ public class PlayListFragment extends Fragment {
                     view = inflater.inflate(R.layout.track_page, container, false);
                     RecyclerView track_list = view.findViewById(R.id.track_list);
                     track_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                    track_list.setAdapter(new TrackAdapter(getContext(), mContent, R.drawable.ic_run));
+                    TrackAdapter adapter = new TrackAdapter(getContext(), mContent, R.drawable.ic_run);
+                    track_list.setAdapter(adapter);
+                    FloatingActionButton addButton = view.findViewById(R.id.add_track_point);
+                    addButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.add("ПРОМЕЖУТОК " + String.valueOf(mContent.size() - 1));
+                        }
+                    });
                     break;
             }
 

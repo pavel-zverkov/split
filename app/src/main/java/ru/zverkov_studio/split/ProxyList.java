@@ -22,4 +22,5 @@ public class ProxyList {
     public ArrayList get_data(){
         return activity_list;
     }
+    public int getCount() { return activity_list.size(); }
 }
