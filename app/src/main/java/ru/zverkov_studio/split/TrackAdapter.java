@@ -61,6 +61,11 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
 
     }
 
+    public void add(String string){
+        content.add(content.size() - 1, string);
+        notifyItemInserted(getItemCount() - 2);
+    }
+
     @Override
     public int getItemCount() {
         return content.size();

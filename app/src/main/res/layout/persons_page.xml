@@ -4,6 +4,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/asphalt">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:id="@+id/persons_attention">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Добавьте участников из клуба"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/asbestos"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_club"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/persons_list"
         android:layout_width="match_parent"
