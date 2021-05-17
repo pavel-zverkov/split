@@ -2,7 +2,6 @@ package ru.zverkov_studio.split;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class DBtoList {
 
     Context mContext;
     ArrayList<String[]> data = new ArrayList<String[]>();
-    DataBase club;
+    DataBasePersons club;
     Cursor cursor;
     String[] row_ind = new String[5];
 
@@ -25,7 +24,7 @@ public class DBtoList {
     }
 
     public ArrayList<String[]> get_data(){
-        club = new DataBase(mContext);
+        club = new DataBasePersons(mContext);
         club.open();
 
         cursor = club.getAllData();

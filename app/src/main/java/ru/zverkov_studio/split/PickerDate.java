@@ -5,7 +5,6 @@ import android.content.Context;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,25 +19,23 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 
-public class BirthdayPicker extends DialogFragment {
+public class PickerDate extends DialogFragment {
     private static Context mContext;
     private static EditText meditText;
     private static ImageButton set_data;
     private static DatePicker datePicker;
 
-    public BirthdayPicker(Context context, EditText editText) {
+    public PickerDate(Context context, EditText editText) {
         mContext = context;
         meditText = editText;
     }
 
-    public static BirthdayPicker newInstance() {
-        BirthdayPicker fragment = new BirthdayPicker(mContext, meditText);
+    public static PickerDate newInstance() {
+        PickerDate fragment = new PickerDate(mContext, meditText);
         return fragment;
     }
 
@@ -53,7 +50,7 @@ public class BirthdayPicker extends DialogFragment {
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View picker = inflater.inflate(R.layout.birthday_input, container, true);
+        View picker = inflater.inflate(R.layout.picker_date, container, true);
 
         datePicker = (DatePicker) picker.findViewById(R.id.birthday_picker);
         set_data = (ImageButton) picker.findViewById(R.id.ok_button_date_picker);

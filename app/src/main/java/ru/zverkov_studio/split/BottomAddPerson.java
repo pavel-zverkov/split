@@ -1,26 +1,19 @@
 package ru.zverkov_studio.split;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -29,15 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.sql.DatabaseMetaData;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
-import java.util.Locale;
-
-public class AddPerson extends BottomSheetDialogFragment implements View.OnClickListener {
+public class BottomAddPerson extends BottomSheetDialogFragment implements View.OnClickListener {
 
     private static Context mContext;
     private static EditText full_name, birthday;
@@ -45,20 +33,23 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
     private static RecyclerView recyclerView;
     private static ImageButton image_add_button;
     private static Button add_button;
-    private static FilterAdapter adapter;
-    private static ClubAdapter m_club_adapter;
-    private static DataBase mDB;
+    private static AdapterFilter adapter;
+    private static AdapterClub m_club_adapter;
+    private static DataBasePersons mDB;
 
-
+    private static final String TABLE_CLUB = "club_table";
+    
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BIRTHDAY = "birthday";
     public static final String COLUMN_QUALIFY = "qualify";
     public static final String COLUMN_GENDER = "gender";
+    public static final String COLUMN_PHONE = "phone";
+    public static final String COLUMN_EMAIL = "email";
 
     ContentValues person_data = new ContentValues();
 
-    public static AddPerson newInstance(Context context, DataBase database, ClubAdapter club_adapter) {
-        AddPerson fragment = new AddPerson();
+    public static BottomAddPerson newInstance(Context context, DataBasePersons database, AdapterClub club_adapter) {
+        BottomAddPerson fragment = new BottomAddPerson();
         m_club_adapter = club_adapter;
         mDB = database;
         mContext = context;
@@ -76,7 +67,7 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View bottomSheetView = inflater.inflate(R.layout.add_person, container, true);
+        View bottomSheetView = inflater.inflate(R.layout.bottom_add_person, container, true);
         // get the views and attach the listener
         full_name = (EditText) bottomSheetView.findViewById(R.id.full_name);
         birthday= (EditText) bottomSheetView.findViewById(R.id.birthday);
@@ -86,7 +77,7 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
 
         recyclerView = bottomSheetView.findViewById(R.id.qualification);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new FilterAdapter(mContext, new ArrayList<String>(Arrays.asList(mContext.getResources().getStringArray(R.array.qualifications))));
+        adapter = new AdapterFilter(mContext, new ArrayList<String>(Arrays.asList(mContext.getResources().getStringArray(R.array.qualifications))));
         recyclerView.setAdapter(adapter);
 
         image_add_button = (ImageButton) bottomSheetView.findViewById(R.id.image_add_button);
@@ -102,6 +93,8 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
         person_data.put(COLUMN_BIRTHDAY, "");
         person_data.put(COLUMN_GENDER, male.getText().toString());
         person_data.put(COLUMN_QUALIFY, "");
+        person_data.put(COLUMN_PHONE, "");
+        person_data.put(COLUMN_EMAIL, "");
         Log.d("myLog", String.valueOf(bottomSheetView));
         return bottomSheetView;
     }
@@ -111,21 +104,24 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
             case R.id.birthday:
                 Log.d("myLog", "birthday_click");
                 
-                BirthdayPicker birth = new BirthdayPicker(mContext, birthday);
+                PickerDate birth = new PickerDate(mContext, birthday);
                 birth.show(getFragmentManager(), "Birth");
                 break;
                 
             case R.id.male:
                 Log.d("myLog", "male click");
-                male.setBackground(mContext.getResources().getDrawable(R.drawable.gender_item_background));
+                male.setBackground(mContext.getResources().getDrawable(R.drawable.background_gender_item));
                 female.setBackground(null);
                 person_data.put(COLUMN_GENDER, male.getText().toString());
                 break;
             case R.id.female:
                 Log.d("myLog", "female click");
                 male.setBackground(null);
-                female.setBackground(mContext.getResources().getDrawable(R.drawable.gender_item_background));
+                female.setBackground(mContext.getResources().getDrawable(R.drawable.background_gender_item));
                 person_data.put(COLUMN_GENDER, female.getText().toString());
+                break;
+            case R.id.additional_features:
+                Toast.makeText(mContext, "Oпция пока недоступна", Toast.LENGTH_SHORT);
                 break;
             case R.id.add_button:
             case R.id.image_add_button:
@@ -133,11 +129,10 @@ public class AddPerson extends BottomSheetDialogFragment implements View.OnClick
                 person_data.put(COLUMN_BIRTHDAY, birthday.getText().toString());
                 person_data.put(COLUMN_QUALIFY, adapter.getChoice());
                 Log.d("myLog", String.valueOf(person_data));
-                mDB.addRec(person_data);
-                m_club_adapter.addItem(mDB.getAllData());
+                mDB.addRec(TABLE_CLUB, person_data);
+                m_club_adapter.addItem(mDB.getAllData(TABLE_CLUB));
                 dismiss();
                 break;
         }
     }
 }
-

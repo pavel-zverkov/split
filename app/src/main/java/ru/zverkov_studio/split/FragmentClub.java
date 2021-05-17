@@ -3,7 +3,6 @@ package ru.zverkov_studio.split;
 
 import androidx.annotation.Nullable;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,23 +17,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ClubFragment extends Fragment {
+public class FragmentClub extends Fragment {
 
     final String TAG = "myLog";
-    DataBase club;
-    ClubAdapter adapter;
+    DataBasePersons club;
+    AdapterClub adapter;
     Context mContext;
     View club_fragment;
 
 
-    public ClubFragment(Context context, DataBase dataBase, ClubAdapter clubAdapter){
-        club = dataBase;
+    public FragmentClub(Context context, DataBasePersons dataBasePersons, AdapterClub adapterClub){
+        club = dataBasePersons;
         mContext = context;
-        adapter = clubAdapter;
+        adapter = adapterClub;
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        club_fragment = inflater.inflate(R.layout.club_fragment, container, false);
+        club_fragment = inflater.inflate(R.layout.fragment_club, container, false);
         Log.d("myLog", "Inflate club_fragment");
 
         create_recyclerview();
@@ -49,7 +48,7 @@ public class ClubFragment extends Fragment {
         Log.d("myLog", String.valueOf(mContext) + " " + String.valueOf(club_fragment.getContext()));
 
 
-        ClubRemoveItem simpleItemTouchCallback = new ClubRemoveItem(club_fragment.getContext(), club_list, 0, ItemTouchHelper.LEFT);
+        ItemTouchHelperClub simpleItemTouchCallback = new ItemTouchHelperClub(club_fragment.getContext(), club_list, 0, ItemTouchHelper.LEFT);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         mItemTouchHelper.attachToRecyclerView(club_list);
     }

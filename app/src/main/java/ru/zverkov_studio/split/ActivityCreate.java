@@ -8,21 +8,18 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 
-
-public class CreateActivity extends AppCompatActivity implements View.OnClickListener {
+public class ActivityCreate extends AppCompatActivity implements View.OnClickListener {
 
     int float_button_mode;
-    DataBase club;
-    ClubAdapter adapter;
+    DataBasePersons club;
+    AdapterClub adapter;
     ProxyList activity_data = new ProxyList();
     BottomNavigationView bottomNavigationView;
     BottomAppBar bottomAppBar;
@@ -31,7 +28,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_activity);
+        setContentView(R.layout.activity_create);
 
         open_DB();
 
@@ -44,7 +41,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         float_button.setImageResource(R.drawable.ic_play);
         float_button_mode = R.id.play_list;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                new PlayListFragment(CreateActivity.this, activity_data, start)).commit();
+                new FragmentPlayList(ActivityCreate.this, activity_data, start)).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,12 +52,12 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                     case R.id.filters_create:
                         break;
                     case R.id.club_create:
-                        selectedFragment = new ClubCreateFragment(CreateActivity.this, activity_data);
+                        selectedFragment = new FragmentClubCreate(ActivityCreate.this, activity_data);
                         float_button_mode = R.id.club_create;
                         float_button.setImageResource(R.drawable.ic_big_plus);
                         break;
                     case R.id.play_list:
-                        selectedFragment = new PlayListFragment(CreateActivity.this, activity_data, start);
+                        selectedFragment = new FragmentPlayList(ActivityCreate.this, activity_data, start);
                         float_button_mode = R.id.play_list;
                         float_button.setImageResource(R.drawable.ic_play);
                         break;
@@ -89,7 +86,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                         bottomAppBar.setVisibility(View.GONE);
                         start = true;
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                                new PlayListFragment(CreateActivity.this, activity_data, start)).commit();
+                                new FragmentPlayList(ActivityCreate.this, activity_data, start)).commit();
                         break;
                 }
 
@@ -97,7 +94,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void open_DB(){
-        club = new DataBase(CreateActivity.this);
+        club = new DataBasePersons(ActivityCreate.this);
         club.open();
     }
 }

@@ -25,7 +25,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 
-public class AddActivity extends BottomSheetDialogFragment implements View.OnClickListener {
+public class BottomAddActivity extends BottomSheetDialogFragment implements View.OnClickListener {
 
     private static Context mContext;
     private static EditText event_name, create_date;
@@ -40,8 +40,8 @@ public class AddActivity extends BottomSheetDialogFragment implements View.OnCli
 
     ContentValues person_data = new ContentValues();
 
-    public static AddActivity newInstance(Context context) {
-        AddActivity fragment = new AddActivity();
+    public static BottomAddActivity newInstance(Context context) {
+        BottomAddActivity fragment = new BottomAddActivity();
         mContext = context;
         return fragment;
     }
@@ -57,7 +57,7 @@ public class AddActivity extends BottomSheetDialogFragment implements View.OnCli
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View bottomSheetView = inflater.inflate(R.layout.add_activity, container, true);
+        View bottomSheetView = inflater.inflate(R.layout.bottom_add_activity, container, true);
         // get the views and attach the listener
         event_name = (EditText) bottomSheetView.findViewById(R.id.event_name);
         create_date = (EditText) bottomSheetView.findViewById(R.id.create_date);
@@ -93,7 +93,7 @@ public class AddActivity extends BottomSheetDialogFragment implements View.OnCli
             case R.id.create_date:
                 Log.d("myLog", "birthday_click");
 
-                BirthdayPicker birth = new BirthdayPicker(mContext, create_date);
+                PickerDate birth = new PickerDate(mContext, create_date);
                 birth.show(getFragmentManager(), "Birth");
                 break;
             case R.id.run:
@@ -137,7 +137,7 @@ public class AddActivity extends BottomSheetDialogFragment implements View.OnCli
                 break;
             case R.id.continue_button:
             case R.id.image_continue_button:
-                Intent intent = new Intent(mContext, CreateActivity.class);
+                Intent intent = new Intent(mContext, ActivityCreate.class);
                 dismiss();
                 startActivity(intent);
                 break;

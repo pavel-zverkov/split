@@ -6,17 +6,17 @@
     android:id="@+id/add_person"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_background"
+    android:background="@drawable/background_bottom_sheet"
     >
 
     <TextView
-        android:id="@+id/new_activity"
+        android:id="@+id/new_person"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginLeft="22dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="bottom"
-        android:text="Тренировка"
+        android:text="Новый участник"
         android:textColor="@color/silver"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,40 +24,40 @@
         tools:ignore="HardcodedText,RtlHardcoded" />
 
     <ImageButton
-        android:id="@+id/image_continue_button"
+        android:id="@+id/image_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/night"
-        android:src="@drawable/ic_right_arrow"
+        android:src="@drawable/ic_ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginRight="23dp"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/new_activity">
+        app:layout_constraintTop_toBottomOf="@id/new_person">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="22dp"
-            android:src="@drawable/ic_watch_mini"/>
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_name" />
 
         <EditText
-            android:id="@+id/event_name"
+            android:id="@+id/full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="22dp"
             android:layout_marginRight="39dp"
             android:backgroundTint="@color/silver"
             android:fontFamily="@font/roboto_medium"
-            android:hint="Название"
+            android:hint="Фамилия Имя"
             android:inputType="textPersonName|textCapWords"
             android:textColor="@color/silver"
             android:textColorHint="@color/asbestos"
@@ -83,7 +83,7 @@
             android:src="@drawable/ic_date" />
 
         <EditText
-            android:id="@+id/create_date"
+            android:id="@+id/birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -91,7 +91,7 @@
             android:layout_marginRight="39dp"
             android:backgroundTint="@color/silver"
             android:fontFamily="@font/roboto_medium"
-            android:hint="Дата проведения"
+            android:hint="Дата рождения"
             android:inputType="date"
             android:textColor="@color/silver"
             android:textColorHint="@color/asbestos"
@@ -119,11 +119,11 @@
         app:layout_constraintTop_toBottomOf="@id/date" />
 
     <LinearLayout
-        android:id="@+id/kind_activity"
+        android:id="@+id/gender"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@id/additional_features"
-        app:layout_constraintBottom_toTopOf="@id/kind_activity"
+        app:layout_constraintBottom_toTopOf="@id/qualify"
         android:orientation="vertical">
 
         <TextView
@@ -134,7 +134,7 @@
             android:textSize="17sp"
             android:textColor="@color/silver"
             android:fontFamily="@font/roboto"
-            android:text="Вид спорта"/>
+            android:text="Пол"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,38 +142,32 @@
             android:layout_marginRight="22dp"
             android:layout_marginLeft="22dp"
             android:layout_marginTop="14dp"
+            android:background="@drawable/background_gender_filter"
             android:orientation="horizontal">
 
-           <ImageView
-               android:id="@+id/run"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@drawable/ic_active_run"
-               android:layout_gravity="center|center_horizontal"
-               android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/male"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:text="М"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/cloud"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_gender_item"/>
 
-            <ImageView
-                android:id="@+id/ski"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_ski"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/orient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_orient"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/tour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tourism"
-                android:layout_gravity="center|center_horizontal"
+            <TextView
+                android:id="@+id/female"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:text="Ж"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/cloud"
+                android:textSize="17sp"
+                android:gravity="center"
                 android:layout_weight="1"/>
 
         </LinearLayout>
@@ -182,60 +176,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/kind_start"
+        android:id="@+id/qualify"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/kind_activity"
+        app:layout_constraintTop_toBottomOf="@id/gender"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:textSize="17sp"
             android:textColor="@color/silver"
             android:fontFamily="@font/roboto"
-            android:text="Вид старта"/>
+            android:text="Квалификация"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/qualification"
+            android:orientation="horizontal"
             android:layout_marginTop="14dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_active_click"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/mass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mass_start"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/interval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_interval_start"
-                android:layout_gravity="center|center_horizontal"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            />
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/continue_button"
+        android:id="@+id/add_button"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginLeft="22dp"
@@ -244,14 +214,14 @@
         android:layout_marginBottom="34dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
-        android:text="Продолжить"
+        android:text="Добавить"
         android:textColor="@color/night"
         android:textSize="15sp"
-        android:background="@drawable/add_button_background"
+        android:background="@drawable/background_add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kind_start" />
+        app:layout_constraintTop_toBottomOf="@id/qualify" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

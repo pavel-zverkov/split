@@ -9,7 +9,7 @@
         android:id="@+id/card_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/club_person_item_background"
+        android:background="@drawable/background_club_person_item"
         android:layout_margin="0.5dp"
         android:orientation="horizontal">
 

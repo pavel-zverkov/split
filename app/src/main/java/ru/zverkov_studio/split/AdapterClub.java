@@ -2,33 +2,23 @@ package ru.zverkov_studio.split;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import org.w3c.dom.Text;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
+public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
@@ -40,22 +30,22 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
 
     private Context mContext;
     private Cursor mCursor;
-    private DataBase mDB;
+    private DataBasePersons mDB;
     List<String> itemsPendingRemoval;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public ClubAdapter(Context context, DataBase dataBase){
+    public AdapterClub(Context context, DataBasePersons dataBasePersons){
         mContext = context;
-        mDB = dataBase;
+        mDB = dataBasePersons;
         mCursor = mDB.getAllData();
         itemsPendingRemoval = new ArrayList<>();
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.club_person_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_club_person, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,7 +63,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
         if (itemsPendingRemoval.contains(item)) {
             Log.d("myLog", "itemsPendingRemoval - Position" + String.valueOf(position) + " Item - " + item);
             // we need to show the "undo" state of the row
-            holder.card_item.setBackground(mContext.getResources().getDrawable(R.drawable.delete_club_item_background));
+            holder.card_item.setBackground(mContext.getResources().getDrawable(R.drawable.background_delete_club_item));
             holder.person_birthday.setVisibility(View.GONE);
             holder.person_name.setVisibility(View.GONE);
             holder.double_ok.setVisibility(View.GONE);
@@ -93,7 +83,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> {
             });
         } else {
             // we need to show the "normal" state
-            holder.card_item.setBackground(mContext.getResources().getDrawable(R.drawable.club_person_item_background));
+            holder.card_item.setBackground(mContext.getResources().getDrawable(R.drawable.background_club_person_item));
             holder.person_name.setVisibility(View.VISIBLE);
             holder.person_birthday.setVisibility(View.VISIBLE);
             holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));

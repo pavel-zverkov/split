@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -24,9 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class PlayListFragment extends Fragment {
+public class FragmentPlayList extends Fragment {
 
     final String TAG = "myLog";
     Context mContext;
@@ -35,14 +32,14 @@ public class PlayListFragment extends Fragment {
     boolean mStart;
     private ArrayList<String> content = new ArrayList<String>();
 
-    public PlayListFragment(Context context, ProxyList data, boolean start){
+    public FragmentPlayList(Context context, ProxyList data, boolean start){
         activity_data = data;
         mContext = context;
         mStart = start;
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        play_list_fragment = inflater.inflate(R.layout.play_list_fragment, container, false);
+        play_list_fragment = inflater.inflate(R.layout.fragment_play_list, container, false);
         Log.d("myLog", "Inflate club_fragment");
 
         content.add("СТАРТ");
@@ -88,7 +85,7 @@ public class PlayListFragment extends Fragment {
             View view = null;
             switch (mPage){
                 case 1:
-                    view = inflater.inflate(R.layout.persons_page, container, false);
+                    view = inflater.inflate(R.layout.page_persons, container, false);
                     LinearLayout attention = view.findViewById(R.id.persons_attention);
                     if (activity_data.getCount() != 0){
                         attention.setVisibility(View.GONE);
@@ -99,24 +96,24 @@ public class PlayListFragment extends Fragment {
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
                     if (!mode){
-                        PersonsAdapter personsAdapter = new PersonsAdapter(getContext(), activity_data);
-                        persons_list.setAdapter(personsAdapter);
+                        AdapterPersons adapterPersons = new AdapterPersons(getContext(), activity_data);
+                        persons_list.setAdapter(adapterPersons);
 
-                        PersonsItemTouchHelper personsItemTouchHelper = new PersonsItemTouchHelper(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
-                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(personsItemTouchHelper);
+                        ItemTouchHelperPersons itemTouchHelperPersons = new ItemTouchHelperPersons(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
+                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperPersons);
                         itemTouchHelper.attachToRecyclerView(persons_list);
                     }
                     else {
-                        PersonsActivityAdapter personsAdapter = new PersonsActivityAdapter(getContext(), activity_data);
+                        AdapterPersonsActivity personsAdapter = new AdapterPersonsActivity(getContext(), activity_data);
                         persons_list.setAdapter(personsAdapter);
                     }
 
                     break;
                 case 2:
-                    view = inflater.inflate(R.layout.track_page, container, false);
+                    view = inflater.inflate(R.layout.page_track, container, false);
                     RecyclerView track_list = view.findViewById(R.id.track_list);
                     track_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                    TrackAdapter adapter = new TrackAdapter(getContext(), mContent, R.drawable.ic_run);
+                    AdapterTrack adapter = new AdapterTrack(getContext(), mContent, R.drawable.ic_run);
                     track_list.setAdapter(adapter);
                     FloatingActionButton addButton = view.findViewById(R.id.add_track_point);
                     addButton.setOnClickListener(new View.OnClickListener() {

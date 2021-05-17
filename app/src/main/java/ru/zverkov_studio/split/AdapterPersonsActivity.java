@@ -2,33 +2,20 @@ package ru.zverkov_studio.split;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Handler;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import org.w3c.dom.Text;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class PersonsActivityAdapter extends RecyclerView.Adapter<PersonsActivityAdapter.ViewHolder> {
+public class AdapterPersonsActivity extends RecyclerView.Adapter<AdapterPersonsActivity.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
@@ -47,7 +34,7 @@ public class PersonsActivityAdapter extends RecyclerView.Adapter<PersonsActivity
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public PersonsActivityAdapter(Context context, ProxyList data){
+    public AdapterPersonsActivity(Context context, ProxyList data){
         mContext = context;
         for(int i = 0; i < data.get_data().size(); i++){
             mData.add((String[]) data.get_data().get(i));
@@ -57,7 +44,7 @@ public class PersonsActivityAdapter extends RecyclerView.Adapter<PersonsActivity
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_activity_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_person_activity, parent, false);
         return new ViewHolder(view);
     }
 

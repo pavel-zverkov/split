@@ -3,14 +3,13 @@ package ru.zverkov_studio.split;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PersonsItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperPersons extends ItemTouchHelper.SimpleCallback {
 
     Drawable background;
     Drawable xMark;
@@ -19,7 +18,7 @@ public class PersonsItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     Context mContext;
     RecyclerView mRecyclerView;
 
-    public PersonsItemTouchHelper(Context context, RecyclerView recyclerView, int dragDirs, int swipeDirs) {
+    public ItemTouchHelperPersons(Context context, RecyclerView recyclerView, int dragDirs, int swipeDirs) {
         super(dragDirs, swipeDirs);
         mContext = context;
         mRecyclerView = recyclerView;
@@ -28,7 +27,7 @@ public class PersonsItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     private void init() {
         xMark = mContext.getResources().getDrawable(R.drawable.ic_trash);
         xMarkMargin = 32;
-        background = mContext.getResources().getDrawable(R.drawable.delete_club_item_background);
+        background = mContext.getResources().getDrawable(R.drawable.background_delete_club_item);
         initiated = true;
     }
 
@@ -45,7 +44,7 @@ public class PersonsItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int swipedPosition = viewHolder.getAdapterPosition();
-        PersonsAdapter adapter = (PersonsAdapter) mRecyclerView.getAdapter();
+        AdapterPersons adapter = (AdapterPersons) mRecyclerView.getAdapter();
         adapter.remove(swipedPosition);
     }
     @Override

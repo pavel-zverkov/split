@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ClubRemoveItem extends ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperClub extends ItemTouchHelper.SimpleCallback {
 
     Drawable background;
     Drawable xMark;
@@ -19,7 +19,7 @@ public class ClubRemoveItem extends ItemTouchHelper.SimpleCallback {
     Context mContext;
     RecyclerView mRecyclerView;
 
-    public ClubRemoveItem(Context context, RecyclerView recyclerView, int dragDirs, int swipeDirs) {
+    public ItemTouchHelperClub(Context context, RecyclerView recyclerView, int dragDirs, int swipeDirs) {
         super(dragDirs, swipeDirs);
         mContext = context;
         mRecyclerView = recyclerView;
@@ -28,7 +28,7 @@ public class ClubRemoveItem extends ItemTouchHelper.SimpleCallback {
     private void init() {
         xMark = mContext.getResources().getDrawable(R.drawable.ic_trash);
         xMarkMargin = 32;
-        background = mContext.getResources().getDrawable(R.drawable.delete_club_item_background);
+        background = mContext.getResources().getDrawable(R.drawable.background_delete_club_item);
         initiated = true;
     }
 
@@ -40,8 +40,8 @@ public class ClubRemoveItem extends ItemTouchHelper.SimpleCallback {
     @Override
     public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int position = viewHolder.getAdapterPosition();
-        ClubAdapter clubAdapter = (ClubAdapter) recyclerView.getAdapter();
-        if (clubAdapter.isUndoOn() && clubAdapter.isPendingRemoval(position)) {
+        AdapterClub adapterClub = (AdapterClub) recyclerView.getAdapter();
+        if (adapterClub.isUndoOn() && adapterClub.isPendingRemoval(position)) {
             return 0;
         }
         return super.getSwipeDirs(recyclerView, viewHolder);
@@ -50,7 +50,7 @@ public class ClubRemoveItem extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int swipedPosition = viewHolder.getAdapterPosition();
-        ClubAdapter adapter = (ClubAdapter) mRecyclerView.getAdapter();
+        AdapterClub adapter = (AdapterClub) mRecyclerView.getAdapter();
         boolean undoOn = adapter.isUndoOn();
         if (undoOn) {
             adapter.pendingRemoval(swipedPosition);

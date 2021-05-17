@@ -17,13 +17,13 @@ import java.util.List;
 import static ru.zverkov_studio.split.R.color.asphalt;
 import static ru.zverkov_studio.split.R.color.blue;
 
-public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
+public class AdapterFilter extends RecyclerView.Adapter<AdapterFilter.ViewHolder> {
     private List<CardView> items = new ArrayList<>();
     private String item_choice = "";
     private ArrayList<String> m_qualify = new ArrayList<String>();
     private Context mContext;
 
-    public FilterAdapter(Context Context, @NonNull ArrayList<String> qualify) {
+    public AdapterFilter(Context Context, @NonNull ArrayList<String> qualify) {
         m_qualify = qualify;
         mContext = Context;
     }
@@ -31,7 +31,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
         return new ViewHolder(view);
     }
 

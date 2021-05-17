@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class CalendarFragment extends Fragment {
+public class FragmentCalendar extends Fragment {
     View calendar_fragment;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        calendar_fragment = inflater.inflate(R.layout.calendar_fragment, container, false);
+        calendar_fragment = inflater.inflate(R.layout.fragment_calendar, container, false);
         Log.d("myLog", "Inflate calendar_fragment");
         return calendar_fragment;
     }
