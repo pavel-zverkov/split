@@ -22,11 +22,15 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
+    private static final String TABLE_CLUB = "club_table";
+
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BIRTHDAY = "birthday";
     public static final String COLUMN_QUALIFY = "qualify";
     public static final String COLUMN_GENDER = "gender";
+    public static final String COLUMN_PHONE = "phone";
+    public static final String COLUMN_EMAIL = "email";
 
     private Context mContext;
     private Cursor mCursor;
@@ -39,7 +43,7 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
     public AdapterClub(Context context, DataBasePersons dataBasePersons){
         mContext = context;
         mDB = dataBasePersons;
-        mCursor = mDB.getAllData();
+        mCursor = mDB.getAllData(TABLE_CLUB);
         itemsPendingRemoval = new ArrayList<>();
     }
     @NonNull
@@ -142,8 +146,8 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
         }
         if (indexes.contains(item)) {
             Log.d("myLog", "Delete from DB - " + item);
-            mDB.delRec(item);
-            mCursor = mDB.getAllData();
+            mDB.delRec(TABLE_CLUB, item);
+            mCursor = mDB.getAllData(TABLE_CLUB);
             notifyItemRemoved(position);
         }
     }

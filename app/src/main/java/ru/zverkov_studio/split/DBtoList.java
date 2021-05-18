@@ -19,6 +19,8 @@ public class DBtoList {
     Cursor cursor;
     String[] row_ind = new String[5];
 
+    private static final String TABLE_CLUB = "club_table";
+
     public DBtoList(Context context){
         mContext = context;
     }
@@ -27,7 +29,7 @@ public class DBtoList {
         club = new DataBasePersons(mContext);
         club.open();
 
-        cursor = club.getAllData();
+        cursor = club.getAllData(TABLE_CLUB);
         cursor.moveToFirst();
 
         for (int i = 0; i < cursor.getCount(); i++){

@@ -10,7 +10,7 @@ import java.sql.Date;
 
 public class DataBasePersons {
 
-    private static final String DB_NAME = "club";
+    private static final String DB_NAME = "persons";
     private static final int DB_VERSION = 1;
     private static final String TABLE_CLUB = "club_table";
     private static final String TABLE_DECLARED = "declared_table";
@@ -26,7 +26,7 @@ public class DataBasePersons {
 
     private static final String TABLE_CLUB_CREATE;
     static {
-        TABLE_CLUB_CREATE = "create table if not exists" + TABLE_CLUB + "(" +
+        TABLE_CLUB_CREATE = "create table if not exists " + TABLE_CLUB + "(" +
                 COLUMN_ID + " integer primary key autoincrement, " +
                 COLUMN_NAME + " text, " +
                 COLUMN_BIRTHDAY + " text, " +
@@ -103,8 +103,8 @@ public class DataBasePersons {
     }
 
     public void drop_additional_tables() {
-        mDB.execSQL(String.format("drop table if exists%s", TABLE_DECLARED));
-        mDB.execSQL(String.format("drop table if exists%s", TABLE_UNDECLARED));
+        mDB.execSQL(String.format("drop table if exists %s", TABLE_DECLARED));
+        mDB.execSQL(String.format("drop table if exists %s", TABLE_UNDECLARED));
     }
 
 

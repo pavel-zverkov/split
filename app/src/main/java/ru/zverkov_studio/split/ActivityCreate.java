@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +19,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ActivityCreate extends AppCompatActivity implements View.OnClickListener {
 
     int float_button_mode;
-    DataBasePersons club;
-    AdapterClub adapter;
+    DataBasePersons persons;
+    DataBaseActivity activities;
     ProxyList activity_data = new ProxyList();
     BottomNavigationView bottomNavigationView;
     BottomAppBar bottomAppBar;
+    
     boolean start = false;
+
+    public static final String COLUMN_EVENT_NAME = "event_name";
+    public static final String COLUMN_CREATE_DATE = "create_date";
+    public static final String COLUMN_KIND_SPORT = "kind_sport";
+    public static final String COLUMN_KIND_START = "kind_start";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,24 +57,25 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
 
                 switch (item.getItemId()){
                     case R.id.filters_create:
+                    case R.id.settings_create:
+                        Toast.makeText(ActivityCreate.this, "Эта функция пока недоступна", Toast.LENGTH_SHORT);
                         break;
                     case R.id.club_create:
                         selectedFragment = new FragmentClubCreate(ActivityCreate.this, activity_data);
                         float_button_mode = R.id.club_create;
                         float_button.setImageResource(R.drawable.ic_big_plus);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
+                                selectedFragment).commit();
                         break;
                     case R.id.play_list:
                         selectedFragment = new FragmentPlayList(ActivityCreate.this, activity_data, start);
                         float_button_mode = R.id.play_list;
                         float_button.setImageResource(R.drawable.ic_play);
-                        break;
-                    case R.id.settings_create:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
+                                selectedFragment).commit();
                         break;
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                        selectedFragment).commit();
-                Log.d("myLog", "Replace");
                 return true;
             }
         });
@@ -94,7 +102,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
     }
 
     public void open_DB(){
-        club = new DataBasePersons(ActivityCreate.this);
-        club.open();
+        persons = new DataBasePersons(ActivityCreate.this);
+        persons.open();
     }
 }

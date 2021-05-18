@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,23 +39,25 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
                 switch (item.getItemId()){
                     case R.id.filters:
+                    case R.id.settings:
+                        Toast.makeText(ActivityMain.this, "Эта функция пока недоступна", Toast.LENGTH_SHORT);
                         break;
                     case R.id.club:
                         selectedFragment = new FragmentClub(ActivityMain.this, persons, adapter);
                         float_button_mode = R.id.club;
                         float_button.setImageResource(R.drawable.ic_big_plus);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                selectedFragment).commit();
                         break;
                     case R.id.calendar:
                         selectedFragment = new FragmentCalendar();
                         float_button_mode = R.id.calendar;
                         float_button.setImageResource(R.drawable.ic_watch);
-                        break;
-                    case R.id.settings:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                selectedFragment).commit();
                         break;
                 }
-                
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
+
                 return true;
             }
         });

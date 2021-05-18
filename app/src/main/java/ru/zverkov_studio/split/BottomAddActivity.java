@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,10 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 
 public class BottomAddActivity extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -37,6 +44,8 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
     public static final String COLUMN_CREATE_DATE = "create_date";
     public static final String COLUMN_KIND_SPORT = "kind_sport";
     public static final String COLUMN_KIND_START = "kind_start";
+
+    public static final HashMap<String, String> input_data = new HashMap<String, String>();
 
     ContentValues person_data = new ContentValues();
 
@@ -56,11 +65,18 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
         return R.style.BottomSheetDialogTheme;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View bottomSheetView = inflater.inflate(R.layout.bottom_add_activity, container, true);
         // get the views and attach the listener
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDateTime now = LocalDateTime.now();
+
         event_name = (EditText) bottomSheetView.findViewById(R.id.event_name);
+        event_name.setText(String.format("Тренировка_%s", String.valueOf(dtf.format(now))));
+
         create_date = (EditText) bottomSheetView.findViewById(R.id.create_date);
+        create_date.setText(String.valueOf(dtf.format(now)));
 
         run = (ImageView) bottomSheetView.findViewById(R.id.run);
         ski = (ImageView) bottomSheetView.findViewById(R.id.ski);
@@ -95,51 +111,69 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
 
                 PickerDate birth = new PickerDate(mContext, create_date);
                 birth.show(getFragmentManager(), "Birth");
+
                 break;
             case R.id.run:
                 run.setImageResource(R.drawable.ic_active_run);
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_tourism);
+                input_data.put(COLUMN_KIND_SPORT, "run");
                 break;
             case R.id.ski:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_active_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_tourism);
+                input_data.put(COLUMN_KIND_SPORT, "ski");
                 break;
             case R.id.orient:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_active_oreint);
                 tour.setImageResource(R.drawable.ic_tourism);
+                input_data.put(COLUMN_KIND_SPORT, "orient");
                 break;
             case R.id.tour:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_active_tourism);
+                input_data.put(COLUMN_KIND_SPORT, "tour");
                 break;
             case R.id.click:
                 click.setImageResource(R.drawable.ic_active_click);
                 mass.setImageResource(R.drawable.ic_mass_start);
                 interval.setImageResource(R.drawable.ic_interval_start);
+                input_data.put(COLUMN_KIND_START, "click");
                 break;
             case R.id.mass:
                 click.setImageResource(R.drawable.ic_click_start);
                 mass.setImageResource(R.drawable.ic_active_mass);
                 interval.setImageResource(R.drawable.ic_interval_start);
+                input_data.put(COLUMN_KIND_START, "mass");
                 break;
             case R.id.interval:
                 click.setImageResource(R.drawable.ic_click_start);
                 mass.setImageResource(R.drawable.ic_mass_start);
                 interval.setImageResource(R.drawable.ic_active_interval);
+                input_data.put(COLUMN_KIND_START, "interval");
                 break;
             case R.id.continue_button:
             case R.id.image_continue_button:
+                input_data.put(COLUMN_EVENT_NAME, String.valueOf(event_name.getText()));
+                input_data.put(COLUMN_CREATE_DATE, String.valueOf(create_date.getText()));
+
                 Intent intent = new Intent(mContext, ActivityCreate.class);
+                intent.putExtra(COLUMN_EVENT_NAME, input_data.get(COLUMN_EVENT_NAME));
+                intent.putExtra(COLUMN_CREATE_DATE, input_data.get(COLUMN_CREATE_DATE));
+                intent.putExtra(COLUMN_KIND_SPORT, input_data.get(COLUMN_KIND_SPORT));
+                intent.putExtra(COLUMN_KIND_START, input_data.get(COLUMN_KIND_START));
                 dismiss();
                 startActivity(intent);
+                break;
+            case R.id.activity_additional_features:
+                Toast.makeText(getContext(), "Эта функция пока недоступна", Toast.LENGTH_SHORT);
                 break;
         }
     }
