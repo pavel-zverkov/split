@@ -39,7 +39,7 @@ public class DataBasePersons {
 
     private static final String TABLE_DECLARED_CREATE;
     static {
-        TABLE_DECLARED_CREATE = "create table " + TABLE_DECLARED + "(" +
+        TABLE_DECLARED_CREATE = "create table if not exists " + TABLE_DECLARED + "(" +
                 COLUMN_ID + " integer primary key autoincrement, " +
                 COLUMN_NAME + " text, " +
                 COLUMN_BIRTHDAY + " text, " +
@@ -52,7 +52,7 @@ public class DataBasePersons {
 
     private static final String TABLE_UNDECLARED_CREATE;
     static {
-        TABLE_UNDECLARED_CREATE = "create table " + TABLE_UNDECLARED + "(" +
+        TABLE_UNDECLARED_CREATE = "create table if not exists " + TABLE_UNDECLARED + "(" +
                 COLUMN_ID + " integer primary key autoincrement, " +
                 COLUMN_NAME + " text, " +
                 COLUMN_BIRTHDAY + " text, " +
@@ -99,6 +99,20 @@ public class DataBasePersons {
 
     public void create_additional_tables() {
         mDB.execSQL(TABLE_UNDECLARED_CREATE);
+        ContentValues cv = new ContentValues();
+        Cursor club_data = getAllData(TABLE_CLUB);
+        club_data.moveToFirst();
+        for (int i = 0; i < club_data.getCount(); i ++){
+            cv.put(COLUMN_NAME, club_data.getString(club_data.getColumnIndex(COLUMN_NAME)));
+            cv.put(COLUMN_BIRTHDAY, club_data.getString(club_data.getColumnIndex(COLUMN_BIRTHDAY)));
+            cv.put(COLUMN_GENDER, club_data.getString(club_data.getColumnIndex(COLUMN_GENDER)));
+            cv.put(COLUMN_QUALIFY, club_data.getString(club_data.getColumnIndex(COLUMN_QUALIFY)));
+            cv.put(COLUMN_EMAIL, club_data.getString(club_data.getColumnIndex(COLUMN_EMAIL)));
+            cv.put(COLUMN_PHONE, club_data.getString(club_data.getColumnIndex(COLUMN_PHONE)));
+            mDB.insert(TABLE_UNDECLARED, null, cv);
+            club_data.moveToNext();
+        }
+
         mDB.execSQL(TABLE_DECLARED_CREATE);
     }
 

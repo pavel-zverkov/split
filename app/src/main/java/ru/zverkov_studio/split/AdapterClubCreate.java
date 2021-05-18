@@ -29,14 +29,12 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
     String item;
     String[] row = new String[5];
     ArrayList mData;
-    ProxyList activity_data;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
     public AdapterClubCreate(Context context, ArrayList data, ProxyList proxy_data){
         mContext = context;
-        activity_data = proxy_data;
         mData = data;
         ArrayList new_data = proxy_data.get_data();
         ArrayList<Integer> copy_data = new ArrayList<Integer>();

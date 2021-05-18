@@ -10,7 +10,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseActivity {
+public class DataBaseEvents {
 
     private static final String DB_NAME = "activities";
     private static final int DB_VERSION = 1;
@@ -21,7 +21,7 @@ public class DataBaseActivity {
 
     private static final String TABLE_TRACK_CREATE;
     static {
-        TABLE_TRACK_CREATE = "create table if not exists" + TABLE_TRACK + "(" +
+        TABLE_TRACK_CREATE = "create table if not exists " + TABLE_TRACK + "(" +
                 COLUMN_ID + " integer primary key autoincrement, " +
                 COLUMN_POINT + " text);";
     }
@@ -30,7 +30,7 @@ public class DataBaseActivity {
     private DBHelper mDBHelper;
     private SQLiteDatabase mDB;
 
-    public DataBaseActivity(Context context) {
+    public DataBaseEvents(Context context) {
         mContext = context;
     }
 

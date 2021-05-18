@@ -20,11 +20,11 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
 
     int float_button_mode;
     DataBasePersons persons;
-    DataBaseActivity activities;
+    DataBaseEvents activities;
     ProxyList activity_data = new ProxyList();
     BottomNavigationView bottomNavigationView;
     BottomAppBar bottomAppBar;
-    
+
     boolean start = false;
 
     public static final String COLUMN_EVENT_NAME = "event_name";
@@ -61,7 +61,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(ActivityCreate.this, "Эта функция пока недоступна", Toast.LENGTH_SHORT);
                         break;
                     case R.id.club_create:
-                        selectedFragment = new FragmentClubCreate(ActivityCreate.this, activity_data);
+                        selectedFragment = new FragmentClubCreate(ActivityCreate.this);
                         float_button_mode = R.id.club_create;
                         float_button.setImageResource(R.drawable.ic_big_plus);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
@@ -104,5 +104,6 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
     public void open_DB(){
         persons = new DataBasePersons(ActivityCreate.this);
         persons.open();
+        persons.create_additional_tables();
     }
 }
