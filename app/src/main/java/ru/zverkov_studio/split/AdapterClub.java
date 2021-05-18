@@ -36,7 +36,7 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
     private Cursor mCursor;
     private DataBasePersons mDB;
     List<String> itemsPendingRemoval;
-    boolean undoOn = true;
+    boolean undoOn = false;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 

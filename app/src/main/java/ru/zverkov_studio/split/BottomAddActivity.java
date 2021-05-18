@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -37,6 +38,7 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
     private static Context mContext;
     private static EditText event_name, create_date;
     private static ImageView run, ski, orient, tour, click, mass, interval;
+    private static TextView additional_features;
     private static ImageButton image_continue_button;
     private static Button continue_button;
 
@@ -78,6 +80,8 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
         create_date = (EditText) bottomSheetView.findViewById(R.id.create_date);
         create_date.setText(String.valueOf(dtf.format(now)));
 
+        additional_features = bottomSheetView.findViewById(R.id.activity_additional_features);
+
         run = (ImageView) bottomSheetView.findViewById(R.id.run);
         ski = (ImageView) bottomSheetView.findViewById(R.id.ski);
         orient = (ImageView) bottomSheetView.findViewById(R.id.orient);
@@ -90,6 +94,7 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
         continue_button = (Button) bottomSheetView.findViewById(R.id.continue_button);
 
         create_date.setOnClickListener(this);
+        additional_features.setOnClickListener(this);
         run.setOnClickListener(this);
         ski.setOnClickListener(this);
         orient.setOnClickListener(this);
@@ -113,6 +118,7 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
                 birth.show(getFragmentManager(), "Birth");
 
                 break;
+
             case R.id.run:
                 run.setImageResource(R.drawable.ic_active_run);
                 ski.setImageResource(R.drawable.ic_ski);
@@ -159,6 +165,7 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
                 interval.setImageResource(R.drawable.ic_active_interval);
                 input_data.put(COLUMN_KIND_START, "interval");
                 break;
+
             case R.id.continue_button:
             case R.id.image_continue_button:
                 input_data.put(COLUMN_EVENT_NAME, String.valueOf(event_name.getText()));
@@ -173,7 +180,7 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
                 startActivity(intent);
                 break;
             case R.id.activity_additional_features:
-                Toast.makeText(getContext(), "Эта функция пока недоступна", Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(), "Эта функция пока недоступна", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

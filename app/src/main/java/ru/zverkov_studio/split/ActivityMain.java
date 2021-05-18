@@ -40,7 +40,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
                 switch (item.getItemId()){
                     case R.id.filters:
                     case R.id.settings:
-                        Toast.makeText(ActivityMain.this, "Эта функция пока недоступна", Toast.LENGTH_SHORT);
+                        Toast.makeText(ActivityMain.this, "Эта функция пока недоступна", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.club:
                         selectedFragment = new FragmentClub(ActivityMain.this, persons, adapter);

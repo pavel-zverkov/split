@@ -29,7 +29,7 @@ public class BottomAddPerson extends BottomSheetDialogFragment implements View.O
 
     private static Context mContext;
     private static EditText full_name, birthday;
-    private static TextView male, female;
+    private static TextView male, female, additional_features;
     private static RecyclerView recyclerView;
     private static ImageButton image_add_button;
     private static Button add_button;
@@ -74,6 +74,7 @@ public class BottomAddPerson extends BottomSheetDialogFragment implements View.O
 
         male = (TextView) bottomSheetView.findViewById(R.id.male);
         female = (TextView) bottomSheetView.findViewById(R.id.female);
+        additional_features = (TextView) bottomSheetView.findViewById(R.id.additional_features);
 
         recyclerView = bottomSheetView.findViewById(R.id.qualification);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -85,6 +86,7 @@ public class BottomAddPerson extends BottomSheetDialogFragment implements View.O
 
         male.setOnClickListener(this);
         female.setOnClickListener(this);
+        additional_features.setOnClickListener(this);
         image_add_button.setOnClickListener(this);
         add_button.setOnClickListener(this);
         birthday.setOnClickListener(this);
@@ -121,7 +123,7 @@ public class BottomAddPerson extends BottomSheetDialogFragment implements View.O
                 person_data.put(COLUMN_GENDER, female.getText().toString());
                 break;
             case R.id.additional_features:
-                Toast.makeText(mContext, "Oпция пока недоступна", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Oпция пока недоступна", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.add_button:
             case R.id.image_add_button:
