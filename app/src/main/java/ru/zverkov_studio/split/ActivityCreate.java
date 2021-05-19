@@ -18,10 +18,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ActivityCreate extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String TAG = "ActivityCreate";
+
     int float_button_mode;
     DataBasePersons persons;
-    DataBaseEvents activities;
-    ProxyList activity_data = new ProxyList();
+    DataBaseEvents events;
     BottomNavigationView bottomNavigationView;
     BottomAppBar bottomAppBar;
 
@@ -105,12 +106,20 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
         persons = new DataBasePersons(ActivityCreate.this);
         persons.open();
         persons.create_additional_tables();
+
+        events = new DataBaseEvents(ActivityCreate.this);
+        events.open();
+        events.drop_track_table();
+        events.create_track_table();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy");
         persons.drop_additional_tables();
         persons.close();
+
+        events.close();
     }
 }

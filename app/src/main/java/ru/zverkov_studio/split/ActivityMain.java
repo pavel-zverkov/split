@@ -93,6 +93,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     public void open_DB(){
         persons = new DataBasePersons(this);
         persons.open();
+        persons.drop_additional_tables();
         adapter = new AdapterClub(this, persons);
     }
 

@@ -72,6 +72,7 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
         cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
         persons.addRec(TABLE_DECLARED, cv);
         persons.delRec(TABLE_UNDECLARED, mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+
         mCursor = persons.getAllData(TABLE_UNDECLARED);
         notifyItemRemoved(position);
     }

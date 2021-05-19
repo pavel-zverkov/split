@@ -62,13 +62,9 @@ public class FragmentPlayList extends Fragment {
         private int mPage;
         boolean mode;
         private ArrayList<String> mContent;
-        private ProxyList activity_data;
 
-
-        public PageFragment (int page, ArrayList<String> content, boolean start) {
+        public PageFragment (int page) {
             mPage = page;
-            mContent = content;
-            mode = start;
         }
 
         @Override public void onCreate(Bundle savedInstanceState) {
@@ -88,19 +84,12 @@ public class FragmentPlayList extends Fragment {
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
 
+                    AdapterPersons adapterPersons = new AdapterPersons(getContext());
+                    persons_list.setAdapter(adapterPersons);
 
-                    if (!mode){
-                        AdapterPersons adapterPersons = new AdapterPersons(getContext());
-                        persons_list.setAdapter(adapterPersons);
-
-                        ItemTouchHelperPersons itemTouchHelperPersons = new ItemTouchHelperPersons(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
-                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperPersons);
-                        itemTouchHelper.attachToRecyclerView(persons_list);
-                    }
-                    else {
-                        AdapterPersonsActivity personsAdapter = new AdapterPersonsActivity(getContext(), activity_data);
-                        persons_list.setAdapter(personsAdapter);
-                    }
+                    ItemTouchHelperPersons itemTouchHelperPersons = new ItemTouchHelperPersons(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperPersons);
+                    itemTouchHelper.attachToRecyclerView(persons_list);
 
                     if (persons_list.getAdapter().getItemCount() != 0){
                         attention.setVisibility(View.GONE);
@@ -147,14 +136,13 @@ public class FragmentPlayList extends Fragment {
         }
 
         @Override public Fragment getItem(int position) {
-            return new PageFragment(position + 1, content, mode);
+            return new PageFragment(position + 1);
         }
 
         @Override public CharSequence getPageTitle(int position) {
             // генерируем заголовок в зависимости от позиции
             return tabTitles[position];
         }
-
-
     }
+
 }
