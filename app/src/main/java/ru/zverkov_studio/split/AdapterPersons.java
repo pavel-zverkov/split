@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
@@ -16,6 +17,11 @@ import java.util.HashMap;
 
 public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHolder> {
 
+    DataBasePersons persons;
+    private static final String TABLE_DECLARED = "declared_table";
+    private static final String TABLE_UNDECLARED = "undeclared_table";
+    ContentValues cv = new ContentValues();
+
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
     public static final String COLUMN_ID = "_id";
@@ -26,19 +32,15 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
 
     private Context mContext;
     String item;
-    String[] row = new String[5];
-    ArrayList mData = new ArrayList();
-    ProxyList activity_data;
+    Cursor mCursor;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public AdapterPersons(Context context, ProxyList data){
+    public AdapterPersons(Context context){
         mContext = context;
-        for(int i = 0; i < data.get_data().size(); i++){
-            mData.add((String[]) data.get_data().get(i));
-        }
-        activity_data = data;
+        open_DB();
+        mCursor = persons.getAllData(TABLE_DECLARED);
     }
     @NonNull
     @Override
@@ -49,12 +51,12 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        row = (String[]) mData.get(position);
-        item = row[0];
+        mCursor.moveToPosition(position);
+        item = mCursor.getString(mCursor.getColumnIndex(COLUMN_ID));
 
         holder.id = item;
-        holder.person_name.setText(row[1]);
-        holder.person_gender.setText(row[0]);
+        holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
+        holder.person_gender.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
     }
 
     public void change(Cursor cursor){
@@ -62,14 +64,20 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
     }
 
     public void remove(int position) {
-        activity_data.remove_from_activity((String[]) mData.get(position));
-        mData.remove(position);
+        mCursor.moveToPosition(position);
+        cv.put(COLUMN_NAME, mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
+        cv.put(COLUMN_BIRTHDAY, mCursor.getString(mCursor.getColumnIndex(COLUMN_BIRTHDAY)));
+        cv.put(COLUMN_GENDER, mCursor.getString(mCursor.getColumnIndex(COLUMN_GENDER)));
+        cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
+        persons.addRec(TABLE_UNDECLARED, cv);
+        persons.delRec(TABLE_DECLARED, mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+        mCursor = persons.getAllData(TABLE_DECLARED);
         notifyItemRemoved(position);
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mCursor.getCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -81,5 +89,9 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
             person_name = itemView.findViewById(R.id.person_activity_name);
             person_gender = itemView.findViewById(R.id.person_activity_gender);
         }
+    }
+    public void open_DB(){
+        persons = new DataBasePersons(mContext);
+        persons.open();
     }
 }

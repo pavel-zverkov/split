@@ -48,7 +48,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
         float_button.setImageResource(R.drawable.ic_play);
         float_button_mode = R.id.play_list;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                new FragmentPlayList(ActivityCreate.this, activity_data, start)).commit();
+                new FragmentPlayList(ActivityCreate.this, start)).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -68,7 +68,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                                 selectedFragment).commit();
                         break;
                     case R.id.play_list:
-                        selectedFragment = new FragmentPlayList(ActivityCreate.this, activity_data, start);
+                        selectedFragment = new FragmentPlayList(ActivityCreate.this, start);
                         float_button_mode = R.id.play_list;
                         float_button.setImageResource(R.drawable.ic_play);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
@@ -94,7 +94,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                         bottomAppBar.setVisibility(View.GONE);
                         start = true;
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                                new FragmentPlayList(ActivityCreate.this, activity_data, start)).commit();
+                                new FragmentPlayList(ActivityCreate.this, start)).commit();
                         break;
                 }
 
@@ -105,5 +105,12 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
         persons = new DataBasePersons(ActivityCreate.this);
         persons.open();
         persons.create_additional_tables();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        persons.drop_additional_tables();
+        persons.close();
     }
 }

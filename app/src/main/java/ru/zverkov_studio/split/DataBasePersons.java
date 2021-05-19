@@ -100,17 +100,17 @@ public class DataBasePersons {
     public void create_additional_tables() {
         mDB.execSQL(TABLE_UNDECLARED_CREATE);
         ContentValues cv = new ContentValues();
-        Cursor club_data = getAllData(TABLE_CLUB);
-        club_data.moveToFirst();
-        for (int i = 0; i < club_data.getCount(); i ++){
-            cv.put(COLUMN_NAME, club_data.getString(club_data.getColumnIndex(COLUMN_NAME)));
-            cv.put(COLUMN_BIRTHDAY, club_data.getString(club_data.getColumnIndex(COLUMN_BIRTHDAY)));
-            cv.put(COLUMN_GENDER, club_data.getString(club_data.getColumnIndex(COLUMN_GENDER)));
-            cv.put(COLUMN_QUALIFY, club_data.getString(club_data.getColumnIndex(COLUMN_QUALIFY)));
-            cv.put(COLUMN_EMAIL, club_data.getString(club_data.getColumnIndex(COLUMN_EMAIL)));
-            cv.put(COLUMN_PHONE, club_data.getString(club_data.getColumnIndex(COLUMN_PHONE)));
+        Cursor mCursor = getAllData(TABLE_CLUB);
+        mCursor.moveToFirst();
+        for (int i = 0; i < mCursor.getCount(); i ++){
+            cv.put(COLUMN_NAME, mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
+            cv.put(COLUMN_BIRTHDAY, mCursor.getString(mCursor.getColumnIndex(COLUMN_BIRTHDAY)));
+            cv.put(COLUMN_GENDER, mCursor.getString(mCursor.getColumnIndex(COLUMN_GENDER)));
+            cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
+            cv.put(COLUMN_EMAIL, mCursor.getString(mCursor.getColumnIndex(COLUMN_EMAIL)));
+            cv.put(COLUMN_PHONE, mCursor.getString(mCursor.getColumnIndex(COLUMN_PHONE)));
             mDB.insert(TABLE_UNDECLARED, null, cv);
-            club_data.moveToNext();
+            mCursor.moveToNext();
         }
 
         mDB.execSQL(TABLE_DECLARED_CREATE);

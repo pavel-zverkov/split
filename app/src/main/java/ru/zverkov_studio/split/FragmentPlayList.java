@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,12 +29,10 @@ public class FragmentPlayList extends Fragment {
     final String TAG = "myLog";
     Context mContext;
     View play_list_fragment;
-    ProxyList activity_data;
     boolean mStart;
     private ArrayList<String> content = new ArrayList<String>();
 
-    public FragmentPlayList(Context context, ProxyList data, boolean start){
-        activity_data = data;
+    public FragmentPlayList(Context context, boolean start){
         mContext = context;
         mStart = start;
     }
@@ -47,7 +46,7 @@ public class FragmentPlayList extends Fragment {
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, activity_data, mStart));
+                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, mStart));
 
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = play_list_fragment.findViewById(R.id.sliding_tabs);
@@ -66,10 +65,9 @@ public class FragmentPlayList extends Fragment {
         private ProxyList activity_data;
 
 
-        public PageFragment (int page, ArrayList<String> content, ProxyList data, boolean start) {
+        public PageFragment (int page, ArrayList<String> content, boolean start) {
             mPage = page;
             mContent = content;
-            activity_data = data;
             mode = start;
         }
 
@@ -87,16 +85,12 @@ public class FragmentPlayList extends Fragment {
                 case 1:
                     view = inflater.inflate(R.layout.page_persons, container, false);
                     LinearLayout attention = view.findViewById(R.id.persons_attention);
-                    if (activity_data.getCount() != 0){
-                        attention.setVisibility(View.GONE);
-                    }
-                    else{
-                        attention.setVisibility(View.VISIBLE);
-                    }
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
                     if (!mode){
-                        AdapterPersons adapterPersons = new AdapterPersons(getContext(), activity_data);
+                        AdapterPersons adapterPersons = new AdapterPersons(getContext());
                         persons_list.setAdapter(adapterPersons);
 
                         ItemTouchHelperPersons itemTouchHelperPersons = new ItemTouchHelperPersons(getContext(), persons_list, 0, ItemTouchHelper.LEFT);
@@ -106,6 +100,13 @@ public class FragmentPlayList extends Fragment {
                     else {
                         AdapterPersonsActivity personsAdapter = new AdapterPersonsActivity(getContext(), activity_data);
                         persons_list.setAdapter(personsAdapter);
+                    }
+
+                    if (persons_list.getAdapter().getItemCount() != 0){
+                        attention.setVisibility(View.GONE);
+                    }
+                    else{
+                        attention.setVisibility(View.VISIBLE);
                     }
 
                     break;
@@ -134,12 +135,10 @@ public class FragmentPlayList extends Fragment {
         private String tabTitles[] = new String[] { "УЧАСТНИКИ", "ДИСТАНЦИЯ" };
         private Context context;
         boolean mode;
-        ProxyList activity_data;
 
-        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, ProxyList data, boolean start) {
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, boolean start) {
             super(fm);
             this.context = context;
-            activity_data = data;
             mode = start;
         }
 
@@ -148,7 +147,7 @@ public class FragmentPlayList extends Fragment {
         }
 
         @Override public Fragment getItem(int position) {
-            return new PageFragment(position + 1, content, activity_data, mode);
+            return new PageFragment(position + 1, content, mode);
         }
 
         @Override public CharSequence getPageTitle(int position) {
