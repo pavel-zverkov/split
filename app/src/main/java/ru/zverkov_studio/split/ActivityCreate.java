@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -49,7 +50,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
         float_button.setImageResource(R.drawable.ic_play);
         float_button_mode = R.id.play_list;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                new FragmentPlayList(ActivityCreate.this, start)).commit();
+                new FragmentPlayList(ActivityCreate.this)).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -69,7 +70,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                                 selectedFragment).commit();
                         break;
                     case R.id.play_list:
-                        selectedFragment = new FragmentPlayList(ActivityCreate.this, start);
+                        selectedFragment = new FragmentPlayList(ActivityCreate.this);
                         float_button_mode = R.id.play_list;
                         float_button.setImageResource(R.drawable.ic_play);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
@@ -95,7 +96,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                         bottomAppBar.setVisibility(View.GONE);
                         start = true;
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                                new FragmentPlayList(ActivityCreate.this, start)).commit();
+                                new FragmentPlayList(ActivityCreate.this)).commit();
                         break;
                 }
 
@@ -110,7 +111,17 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
         events = new DataBaseEvents(ActivityCreate.this);
         events.open();
         events.drop_track_table();
+        events.clear_event_data();
         events.create_track_table();
+
+        Intent intent = getIntent();
+        events.fill_event_data(intent.getStringExtra(COLUMN_EVENT_NAME),
+                               intent.getStringExtra(COLUMN_CREATE_DATE),
+                               intent.getStringExtra(COLUMN_KIND_SPORT),
+                               intent.getStringExtra(COLUMN_KIND_START));
+        for (int i = 0; i < 4; i++){
+            Log.d("events_data", events.get_event_data()[i]);
+        }
     }
 
     @Override

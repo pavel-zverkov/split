@@ -105,6 +105,9 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
         image_continue_button.setOnClickListener(this);
         continue_button.setOnClickListener(this);
 
+        input_data.put(COLUMN_KIND_SPORT, "ic_run");
+        input_data.put(COLUMN_KIND_START, "click");
+
         Log.d("myLog", String.valueOf(bottomSheetView));
         return bottomSheetView;
     }
@@ -124,28 +127,28 @@ public class BottomAddActivity extends BottomSheetDialogFragment implements View
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_tourism);
-                input_data.put(COLUMN_KIND_SPORT, "run");
+                input_data.put(COLUMN_KIND_SPORT, "ic_run");
                 break;
             case R.id.ski:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_active_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_tourism);
-                input_data.put(COLUMN_KIND_SPORT, "ski");
+                input_data.put(COLUMN_KIND_SPORT, "ic_ski");
                 break;
             case R.id.orient:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_active_oreint);
                 tour.setImageResource(R.drawable.ic_tourism);
-                input_data.put(COLUMN_KIND_SPORT, "orient");
+                input_data.put(COLUMN_KIND_SPORT, "ic_orient");
                 break;
             case R.id.tour:
                 run.setImageResource(R.drawable.ic_run);
                 ski.setImageResource(R.drawable.ic_ski);
                 orient.setImageResource(R.drawable.ic_orient);
                 tour.setImageResource(R.drawable.ic_active_tourism);
-                input_data.put(COLUMN_KIND_SPORT, "tour");
+                input_data.put(COLUMN_KIND_SPORT, "ic_tourism");
                 break;
             case R.id.click:
                 click.setImageResource(R.drawable.ic_active_click);

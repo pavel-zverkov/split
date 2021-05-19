@@ -132,7 +132,7 @@ public class BottomAddPerson extends BottomSheetDialogFragment implements View.O
                 person_data.put(COLUMN_QUALIFY, adapter.getChoice());
                 Log.d("myLog", String.valueOf(person_data));
                 mDB.addRec(TABLE_CLUB, person_data);
-                m_club_adapter.addItem(mDB.getAllData(TABLE_CLUB));
+                m_club_adapter.addItem(mDB.getAllData(TABLE_CLUB, DataBasePersons.COLUMN_NAME));
                 dismiss();
                 break;
         }

@@ -15,9 +15,10 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@id/track_list"
             app:layout_constraintBottom_toBottomOf="@id/track_list"
+
             app:layout_constraintEnd_toEndOf="@id/track_list"
             android:layout_marginBottom="47dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="80dp"
             android:backgroundTint="@color/yellow"
             app:rippleColor="@color/asphalt"
             app:maxImageSize="30dp"

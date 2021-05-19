@@ -40,7 +40,7 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
     public AdapterPersons(Context context){
         mContext = context;
         open_DB();
-        mCursor = persons.getAllData(TABLE_DECLARED);
+        mCursor = persons.getAllData(TABLE_DECLARED, null);
     }
     @NonNull
     @Override
@@ -70,8 +70,8 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
         cv.put(COLUMN_GENDER, mCursor.getString(mCursor.getColumnIndex(COLUMN_GENDER)));
         cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
         persons.addRec(TABLE_UNDECLARED, cv);
-        persons.delRec(TABLE_DECLARED, mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
-        mCursor = persons.getAllData(TABLE_DECLARED);
+        persons.delRec(TABLE_DECLARED, mCursor.getInt(0));
+        mCursor = persons.getAllData(TABLE_DECLARED, null);
         notifyItemRemoved(position);
     }
 

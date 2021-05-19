@@ -43,7 +43,7 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
     public AdapterClub(Context context, DataBasePersons dataBasePersons){
         mContext = context;
         mDB = dataBasePersons;
-        mCursor = mDB.getAllData(TABLE_CLUB);
+        mCursor = mDB.getAllData(TABLE_CLUB, COLUMN_NAME);
         itemsPendingRemoval = new ArrayList<>();
     }
     @NonNull
@@ -138,18 +138,11 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
         if (itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.remove(item);
         }
-        List<String> indexes = new ArrayList<>();
-        mCursor.moveToFirst();
-        for (int i = 0; i < getItemCount(); i++) {
-            indexes.add(mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
-            mCursor.moveToNext();
-        }
-        if (indexes.contains(item)) {
-            Log.d("myLog", "Delete from DB - " + item);
-            mDB.delRec(TABLE_CLUB, item);
-            mCursor = mDB.getAllData(TABLE_CLUB);
-            notifyItemRemoved(position);
-        }
+        Log.d("myLog", "Delete from DB - " + item);
+        mDB.delRec(TABLE_CLUB, mCursor.getInt(0));
+        mCursor = mDB.getAllData(TABLE_CLUB, COLUMN_NAME);
+        notifyItemRemoved(position);
+
     }
 
     public void addItem(Cursor cursor){

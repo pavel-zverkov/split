@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AdapterPersonsActivity extends RecyclerView.Adapter<AdapterPersonsActivity.ViewHolder> {
+public class AdapterPersonsActivity {//extends RecyclerView.Adapter<AdapterPersonsActivity.ViewHolder> {
 
-    private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
+    /*private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
@@ -29,12 +29,11 @@ public class AdapterPersonsActivity extends RecyclerView.Adapter<AdapterPersonsA
     String item;
     String[] row = new String[5];
     ArrayList mData = new ArrayList();
-    ProxyList activity_data;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public AdapterPersonsActivity(Context context, ProxyList data){
+    public AdapterPersonsActivity(Context context){
         mContext = context;
         for(int i = 0; i < data.get_data().size(); i++){
             mData.add((String[]) data.get_data().get(i));
@@ -100,5 +99,5 @@ public class AdapterPersonsActivity extends RecyclerView.Adapter<AdapterPersonsA
             number = itemView.findViewById(R.id.number);
             button_time = itemView.findViewById(R.id.catch_time);
         }
-    }
+    }*/
 }

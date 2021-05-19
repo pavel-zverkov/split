@@ -29,12 +29,10 @@ public class FragmentPlayList extends Fragment {
     final String TAG = "myLog";
     Context mContext;
     View play_list_fragment;
-    boolean mStart;
     private ArrayList<String> content = new ArrayList<String>();
 
-    public FragmentPlayList(Context context, boolean start){
+    public FragmentPlayList(Context context){
         mContext = context;
-        mStart = start;
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,13 +44,38 @@ public class FragmentPlayList extends Fragment {
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext, mStart));
+                new SampleFragmentPagerAdapter(getChildFragmentManager(), mContext));
 
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = play_list_fragment.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return play_list_fragment;
+    }
+
+    public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+        final int PAGE_COUNT = 2;
+        private String tabTitles[] = new String[] { "УЧАСТНИКИ", "ДИСТАНЦИЯ" };
+        private Context context;
+        boolean mode;
+
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
+            super(fm);
+            this.context = context;
+        }
+
+        @Override public int getCount() {
+            return PAGE_COUNT;
+        }
+
+        @Override public Fragment getItem(int position) {
+            return new PageFragment(position + 1);
+        }
+
+        @Override public CharSequence getPageTitle(int position) {
+            // генерируем заголовок в зависимости от позиции
+            return tabTitles[position];
+        }
     }
 
     public static class PageFragment extends Fragment {
@@ -103,45 +126,24 @@ public class FragmentPlayList extends Fragment {
                     view = inflater.inflate(R.layout.page_track, container, false);
                     RecyclerView track_list = view.findViewById(R.id.track_list);
                     track_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                    AdapterTrack adapter = new AdapterTrack(getContext(), mContent, R.drawable.ic_run);
+                    AdapterTrack adapter = new AdapterTrack(getContext());
                     track_list.setAdapter(adapter);
+
+                    ItemTouchHelperTrack itemTouchHelperTrack = new ItemTouchHelperTrack(getContext(), track_list, 0, ItemTouchHelper.LEFT);
+                    ItemTouchHelper itemTouchHelper_ = new ItemTouchHelper(itemTouchHelperTrack);
+                    itemTouchHelper_.attachToRecyclerView(track_list);
+
                     FloatingActionButton addButton = view.findViewById(R.id.add_track_point);
                     addButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            adapter.add("ПРОМЕЖУТОК " + String.valueOf(mContent.size() - 1));
+                            adapter.add("ПРОМЕЖУТОК");
                         }
                     });
                     break;
             }
 
             return view;
-        }
-    }
-
-    public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[] { "УЧАСТНИКИ", "ДИСТАНЦИЯ" };
-        private Context context;
-        boolean mode;
-
-        public SampleFragmentPagerAdapter(FragmentManager fm, Context context, boolean start) {
-            super(fm);
-            this.context = context;
-            mode = start;
-        }
-
-        @Override public int getCount() {
-            return PAGE_COUNT;
-        }
-
-        @Override public Fragment getItem(int position) {
-            return new PageFragment(position + 1);
-        }
-
-        @Override public CharSequence getPageTitle(int position) {
-            // генерируем заголовок в зависимости от позиции
-            return tabTitles[position];
         }
     }
 

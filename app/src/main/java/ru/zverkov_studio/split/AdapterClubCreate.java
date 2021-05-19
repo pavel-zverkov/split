@@ -41,7 +41,7 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
     public AdapterClubCreate(Context context){
         mContext = context;
         open_DB();
-        mCursor = persons.getAllData(TABLE_UNDECLARED);
+        mCursor = persons.getAllData(TABLE_UNDECLARED, DataBasePersons.COLUMN_NAME);
     }
     @NonNull
     @Override
@@ -71,9 +71,9 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
         cv.put(COLUMN_GENDER, mCursor.getString(mCursor.getColumnIndex(COLUMN_GENDER)));
         cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
         persons.addRec(TABLE_DECLARED, cv);
-        persons.delRec(TABLE_UNDECLARED, mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+        persons.delRec(TABLE_UNDECLARED, mCursor.getInt(0));
 
-        mCursor = persons.getAllData(TABLE_UNDECLARED);
+        mCursor = persons.getAllData(TABLE_UNDECLARED, DataBasePersons.COLUMN_NAME);
         notifyItemRemoved(position);
     }
 

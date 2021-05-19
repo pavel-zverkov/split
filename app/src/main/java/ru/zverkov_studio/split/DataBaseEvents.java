@@ -8,9 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataBaseEvents {
+
+    private static final String[] event_data = new String[4];
+    private static final ArrayList<String> track = new ArrayList<String>();
 
     private static final String DB_NAME = "activities";
     private static final int DB_VERSION = 1;
@@ -42,7 +47,7 @@ public class DataBaseEvents {
 
     // закрыть подключение
     public void close() {
-        mDB.execSQL("drop table " + TABLE_TRACK);
+        drop_track_table();
         if (mDBHelper!=null) mDBHelper.close();
     }
 
@@ -82,24 +87,47 @@ public class DataBaseEvents {
         }
     }
 
-    public void create_track_table() {
-        mDB.execSQL(TABLE_TRACK_CREATE);
+    public Cursor getTables() {
+        String mySql = "SELECT name FROM sqlite_master " + " WHERE type='table'";
+        return mDB.rawQuery(mySql, null);
+    }
 
-        ContentValues cv = new ContentValues();
+    public void fill_event_data(String event_name, String event_date, String kind_sport, String kind_start) {
+        event_data[0] = event_name;
+        event_data[1] = event_date;
+        event_data[2] = kind_sport;
+        event_data[3] = kind_start;
+    }
+
+    public void clear_event_data() {
+        Arrays.fill(event_data, null);
+    }
+
+    public String[] get_event_data() {
+        return event_data;
+    }
+
+    public void create_track_table() {
         String[] points = new String[] {"СТАРТ", "ФИНИШ"};
         for (String point: points){
-            cv.put(COLUMN_POINT, point);
-            mDB.insert(TABLE_TRACK, null, cv);
+            track.add(point);
         }
     }
 
     public void drop_track_table() {
-        mDB.execSQL(String.format("drop table if exists %s", TABLE_TRACK));
+        track.removeAll(track);
     }
 
-    public Cursor getTables() {
-        String mySql = "SELECT name FROM sqlite_master " + " WHERE type='table'";
-        return mDB.rawQuery(mySql, null);
+    public void add_point(int position, String item){
+        track.add(position, item);
+    }
+
+    public void remove_point(int position){
+        track.remove(position);
+    }
+
+    public ArrayList<String> get_track() {
+        return track;
     }
 
     // класс по созданию и управлению БД

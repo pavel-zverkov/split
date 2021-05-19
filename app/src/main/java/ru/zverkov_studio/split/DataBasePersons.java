@@ -83,8 +83,8 @@ public class DataBasePersons {
     }
 
     // получить все данные из таблицы DB_TABLE
-    public Cursor getAllData(String TABLE) {
-        return mDB.query(TABLE, null, null, null, null, null, COLUMN_NAME);
+    public Cursor getAllData(String TABLE, String COLUMN) {
+        return mDB.query(TABLE, null, null, null, null, null, COLUMN);
     }
 
     // добавить запись в DB_TABLE
@@ -93,14 +93,14 @@ public class DataBasePersons {
     }
 
     // удалить запись из DB_TABLE
-    public void delRec(String TABLE, String id) {
-        mDB.delete(TABLE, COLUMN_ID + " LIKE " + "'%" + id + "%'", null);
+    public void delRec(String TABLE, long id) {
+        mDB.delete(TABLE, COLUMN_ID + " = " + id, null);
     }
 
     public void create_additional_tables() {
         mDB.execSQL(TABLE_UNDECLARED_CREATE);
         ContentValues cv = new ContentValues();
-        Cursor mCursor = getAllData(TABLE_CLUB);
+        Cursor mCursor = getAllData(TABLE_CLUB, COLUMN_NAME);
         mCursor.moveToFirst();
         for (int i = 0; i < mCursor.getCount(); i ++){
             cv.put(COLUMN_NAME, mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
