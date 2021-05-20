@@ -29,7 +29,6 @@ public class FragmentPlayList extends Fragment {
     final String TAG = "myLog";
     Context mContext;
     View play_list_fragment;
-    private ArrayList<String> content = new ArrayList<String>();
 
     public FragmentPlayList(Context context){
         mContext = context;
@@ -38,9 +37,6 @@ public class FragmentPlayList extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         play_list_fragment = inflater.inflate(R.layout.fragment_play_list, container, false);
         Log.d("myLog", "Inflate club_fragment");
-
-        content.add("СТАРТ");
-        content.add("ФИНИШ");
 
         ViewPager viewPager = play_list_fragment.findViewById(R.id.view_pager);
         viewPager.setAdapter(

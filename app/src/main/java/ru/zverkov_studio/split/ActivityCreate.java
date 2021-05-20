@@ -91,12 +91,8 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
                     case R.id.club_create:
                         break;
                     case R.id.play_list:
-                        Log.d("CreateActivity", "Click on play");
-                        bottomNavigationView.setVisibility(View.GONE);
-                        bottomAppBar.setVisibility(View.GONE);
-                        start = true;
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
-                                new FragmentPlayList(ActivityCreate.this)).commit();
+                        Intent intent = new Intent(ActivityCreate.this, ActivityEvent.class);
+                        startActivity(intent);
                         break;
                 }
 
