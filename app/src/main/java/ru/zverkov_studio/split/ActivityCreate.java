@@ -26,6 +26,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
     DataBaseEvents events;
     BottomNavigationView bottomNavigationView;
     BottomAppBar bottomAppBar;
+    FloatingActionButton float_button;
 
     boolean start = false;
 
@@ -41,7 +42,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
 
         open_DB();
 
-        FloatingActionButton float_button = (FloatingActionButton) findViewById(R.id.float_button_create);
+        float_button = (FloatingActionButton) findViewById(R.id.float_button_create);
         float_button.setOnClickListener(this);
 
         bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_bar_create);
@@ -89,6 +90,13 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
             case R.id.float_button_create:
                 switch (float_button_mode){
                     case R.id.club_create:
+                        bottomNavigationView.setSelectedItemId(R.id.play_list);
+                        float_button.setImageResource(R.drawable.ic_play);
+                        float_button_mode = R.id.play_list;
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_create,
+                                new FragmentPlayList(ActivityCreate.this)).commit();
+
+                        persons.all_declared();
                         break;
                     case R.id.play_list:
                         Intent intent = new Intent(ActivityCreate.this, ActivityEvent.class);

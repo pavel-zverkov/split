@@ -93,8 +93,8 @@ public class ActivityEvent extends AppCompatActivity {
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                    AdapterPersons adapterPersons = new AdapterPersons(getContext());
-                    persons_list.setAdapter(adapterPersons);
+                    AdapterPersonsEvent adapterPersonsEvent = new AdapterPersonsEvent(getContext());
+                    persons_list.setAdapter(adapterPersonsEvent);
 
                     if (persons_list.getAdapter().getItemCount() != 0){
                         attention.setVisibility(View.GONE);

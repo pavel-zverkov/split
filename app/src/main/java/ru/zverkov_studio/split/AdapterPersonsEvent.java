@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
@@ -14,57 +15,61 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class AdapterPersonsActivity {//extends RecyclerView.Adapter<AdapterPersonsActivity.ViewHolder> {
+public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEvent.ViewHolder> {
 
-    /*private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
+    DataBasePersons persons;
+    DataBaseEvents events;
+    private static final String TABLE_DECLARED = "declared_table";
+    ContentValues cv = new ContentValues();
 
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_BIRTHDAY = "birthday";
-    public static final String COLUMN_QUALIFY = "qualify";
-    public static final String COLUMN_GENDER = "gender";
+    ArrayList<Stopwatch> stopwatches = new ArrayList<>();
 
+    private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
+
+    List<String> track;
+    int point = 0;
     private Context mContext;
     String item;
-    String[] row = new String[5];
-    ArrayList mData = new ArrayList();
+    Cursor mCursor;
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public AdapterPersonsActivity(Context context){
+    public AdapterPersonsEvent(Context context){
         mContext = context;
-        for(int i = 0; i < data.get_data().size(); i++){
-            mData.add((String[]) data.get_data().get(i));
+        open_DB();
+        mCursor = persons.getAllData(TABLE_DECLARED, null);
+        track = events.get_track();
+        for (int i = 0; i < getItemCount(); i++) {
+            stopwatches.add(new Stopwatch());
         }
-        activity_data = data;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_person_activity, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_person_event, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        row = (String[]) mData.get(position);
-        item = row[0];
-
-        holder.point = 0;
-        holder.length = 2;
+        mCursor.moveToPosition(position);
+        item = mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_ID));
 
         holder.id = item;
         holder.number.setText(String.valueOf(position + 1));
-        holder.sportsman_name.setText(row[1]);
-        holder.main_time.setText("Старт");
-        holder.lap_time.setText("");
+        holder.sportsman_name.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_NAME)));
+        holder.main_time.setText(stopwatches.get(position).timer);
+        holder.lap_time.setText(stopwatches.get(position).lap_timer);
         holder.distance_point.setText("");
         holder.button_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Stopwatch stopwatch = new Stopwatch(holder.main_time, holder.lap_time);
+                stopwatches.get(position).start();
+                holder.main_time.setText(stopwatches.get(position).timer);
+                holder.lap_time.setText(stopwatches.get(position).lap_timer);
             }
         });
     }
@@ -74,21 +79,20 @@ public class AdapterPersonsActivity {//extends RecyclerView.Adapter<AdapterPerso
     }
 
     public void remove(int position) {
-        activity_data.remove_from_activity((String[]) mData.get(position));
+        /*activity_data.remove_from_activity((String[]) mData.get(position));
         mData.remove(position);
-        notifyItemRemoved(position);
+        notifyItemRemoved(position);*/
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mCursor.getCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         String id;
         TextView sportsman_name, main_time, lap_time, distance_point, number;
         LinearLayout button_time;
-        int point, length;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,5 +103,20 @@ public class AdapterPersonsActivity {//extends RecyclerView.Adapter<AdapterPerso
             number = itemView.findViewById(R.id.number);
             button_time = itemView.findViewById(R.id.catch_time);
         }
-    }*/
+    }
+
+    public void open_DB(){
+        persons = new DataBasePersons(mContext);
+        persons.open();
+        events = new DataBaseEvents(mContext);
+        events.open();
+    }
+
+    public class updater {
+        ViewHolder mHolder;
+        Handler handler = new Handler();
+        public updater (ViewHolder holder) {
+            
+        }
+    }
 }

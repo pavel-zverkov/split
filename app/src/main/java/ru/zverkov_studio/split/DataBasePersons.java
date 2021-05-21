@@ -116,6 +116,25 @@ public class DataBasePersons {
         mDB.execSQL(TABLE_DECLARED_CREATE);
     }
 
+    public void all_declared() {
+        ContentValues cv = new ContentValues();
+        Cursor mCursor = getAllData(TABLE_UNDECLARED, COLUMN_NAME);
+        mCursor.moveToFirst();
+        for (int i = 0; i < mCursor.getCount(); i ++){
+            cv.put(COLUMN_NAME, mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
+            cv.put(COLUMN_BIRTHDAY, mCursor.getString(mCursor.getColumnIndex(COLUMN_BIRTHDAY)));
+            cv.put(COLUMN_GENDER, mCursor.getString(mCursor.getColumnIndex(COLUMN_GENDER)));
+            cv.put(COLUMN_QUALIFY, mCursor.getString(mCursor.getColumnIndex(COLUMN_QUALIFY)));
+            cv.put(COLUMN_EMAIL, mCursor.getString(mCursor.getColumnIndex(COLUMN_EMAIL)));
+            cv.put(COLUMN_PHONE, mCursor.getString(mCursor.getColumnIndex(COLUMN_PHONE)));
+            mDB.insert(TABLE_DECLARED, null, cv);
+            mCursor.moveToNext();
+        }
+
+        mDB.execSQL(String.format("drop table if exists %s", TABLE_UNDECLARED));
+        mDB.execSQL(TABLE_UNDECLARED_CREATE);
+    }
+
     public void drop_additional_tables() {
         mDB.execSQL(String.format("drop table if exists %s", TABLE_DECLARED));
         mDB.execSQL(String.format("drop table if exists %s", TABLE_UNDECLARED));
