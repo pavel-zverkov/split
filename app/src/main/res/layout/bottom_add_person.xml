@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_person"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_bottom_sheet"
+    >
+
+    <TextView
+        android:id="@+id/new_person"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="22dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="bottom"
+        android:text="Новый участник"
+        android:textColor="@color/silver"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,RtlHardcoded" />
+
+    <ImageButton
+        android:id="@+id/image_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/night"
+        android:src="@drawable/ic_ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="23dp"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/new_person">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_name" />
+
+        <EditText
+            android:id="@+id/full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginRight="39dp"
+            android:backgroundTint="@color/silver"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="Фамилия Имя"
+            android:inputType="textPersonName|textCapWords"
+            android:textColor="@color/silver"
+            android:textColorHint="@color/asbestos"
+            android:textSize="17sp"
+            android:imeOptions="actionDone"
+            tools:ignore="Deprecated"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/name">
+
+        <ImageView
+            android:id="@+id/cal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_date" />
+
+        <EditText
+            android:id="@+id/birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginRight="39dp"
+            android:backgroundTint="@color/silver"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="Дата рождения"
+            android:inputType="date"
+            android:textColor="@color/silver"
+            android:textColorHint="@color/asbestos"
+            android:textSize="17sp"
+            tools:ignore="Deprecated"
+            android:focusable="false"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/additional_features"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="22dp"
+        android:background="@color/night"
+        android:clickable="true"
+        android:fontFamily="@font/roboto"
+        android:text="Показать другие поля"
+        android:textAllCaps="true"
+        android:textColor="@color/silver"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date" />
+
+    <LinearLayout
+        android:id="@+id/gender"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/additional_features"
+        app:layout_constraintBottom_toTopOf="@id/qualify"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="16dp"
+            android:textSize="17sp"
+            android:textColor="@color/silver"
+            android:fontFamily="@font/roboto"
+            android:text="Пол"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/background_gender_filter"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/male"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:text="М"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/cloud"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_gender_item"/>
+
+            <TextView
+                android:id="@+id/female"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:text="Ж"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/cloud"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/qualify"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/gender"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="8dp"
+            android:textSize="17sp"
+            android:textColor="@color/silver"
+            android:fontFamily="@font/roboto"
+            android:text="Квалификация"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/qualification"
+            android:orientation="horizontal"
+            android:layout_marginTop="14dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_button"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="34dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="Добавить"
+        android:textColor="@color/night"
+        android:textSize="15sp"
+        android:background="@drawable/background_add_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qualify" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

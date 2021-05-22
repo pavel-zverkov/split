@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:elevation="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="0.5dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_track_item"
+        android:elevation="20dp">
+
+        <TextView
+            android:id="@+id/side_highlight"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/highlight"
+            android:backgroundTint="@color/green"/>
+        
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="23dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"    
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/track_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Старт"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="17sp"
+                    android:gravity="bottom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:text="Старт"
+                    android:textColor="@color/silver"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="15sp"
+                    android:gravity="top"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/sport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_run"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="30dp"/>
+            
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

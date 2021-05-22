@@ -1,0 +1,42 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/asphalt">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_track_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/track_list"
+            app:layout_constraintBottom_toBottomOf="@id/track_list"
+
+            app:layout_constraintEnd_toEndOf="@id/track_list"
+            android:layout_marginBottom="47dp"
+            android:layout_marginRight="80dp"
+            android:backgroundTint="@color/yellow"
+            app:rippleColor="@color/asphalt"
+            app:maxImageSize="30dp"
+            app:fabCustomSize="35dp"
+            app:backgroundTint="@color/asphalt"
+            android:src="@drawable/ic_big_plus"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/track_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

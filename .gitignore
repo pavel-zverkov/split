@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+.DS_Store
+.gradle/
+.idea/
+gradle/.DS_Store
+=======
+.gradle/
+.idea/
+local.properties
+gradle/.DS_Store
+.DS_Store
+>>>>>>> fragment

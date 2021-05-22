@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/asphalt"
-    tools:context=".ActivityMain">
+    tools:context=".ActivityCreate">
+
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragment_container_create"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_bar"
+        android:id="@+id/bottom_bar_create"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
@@ -27,7 +27,7 @@
         app:hideOnScroll="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigation"
+            android:id="@+id/navigation_create"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="100dp"
@@ -37,16 +37,16 @@
             app:itemIconSize="32dp"
             app:itemIconTint="@drawable/items_color"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/bottom_bar" />
+            app:menu="@menu/bottom_bar_create"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/float_button"
-        app:layout_anchor="@id/bottom_bar"
+        android:id="@+id/float_button_create"
+        app:layout_anchor="@id/bottom_bar_create"
         android:layout_width="66dp"
         android:layout_height="66dp"
-        android:src="@drawable/ic_big_plus"
+        android:src="@drawable/ic_play"
         app:backgroundTint="@color/yellow"
         app:fabCustomSize="66dp"
         app:maxImageSize="66dp" />
