@@ -20,7 +20,7 @@
             android:layout_width="3dp"
             android:layout_height="match_parent"
             android:background="@drawable/highlight"
-            android:backgroundTint="@color/dark_blue"/>
+            android:backgroundTint="@color/dark_red"/>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="0.5dp"
         android:orientation="horizontal"
         android:background="@drawable/background_track_item"
@@ -19,48 +19,89 @@
             android:layout_width="3dp"
             android:layout_height="match_parent"
             android:background="@drawable/highlight"
-            android:backgroundTint="@color/green"/>
+            android:backgroundTint="@color/dark_green"/>
         
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="23dp">
+            android:orientation="vertical">
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/point_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="23dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/track_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="Старт"
+                        android:textColor="@color/silver"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="17sp"
+                        android:gravity="bottom"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:text=""
+                        android:textColor="@color/silver"
+                        android:fontFamily="@font/roboto_light"
+                        android:textSize="15sp"
+                        android:gravity="top"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/sport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_run"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginRight="30dp"/>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"    
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:id="@+id/sub_item_track">
 
                 <TextView
-                    android:id="@+id/track_point"
+                    android:layout_width="100dp"
+                    android:layout_height="1dp"
+                    android:background="@color/silver"
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:id="@+id/track_attention"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="23dp"
                     android:text="Старт"
                     android:textColor="@color/silver"
                     android:fontFamily="@font/roboto"
                     android:textSize="17sp"
                     android:gravity="bottom"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:text="Старт"
-                    android:textColor="@color/silver"
-                    android:fontFamily="@font/roboto_light"
-                    android:textSize="15sp"
-                    android:gravity="top"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/list_inside_point"/>
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/sport"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_run"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="30dp"/>
-            
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

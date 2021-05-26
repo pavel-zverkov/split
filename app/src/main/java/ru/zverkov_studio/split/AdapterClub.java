@@ -95,7 +95,7 @@ public class AdapterClub extends RecyclerView.Adapter<AdapterClub.ViewHolder> {
             holder.person_name.setVisibility(View.VISIBLE);
             holder.person_birthday.setVisibility(View.VISIBLE);
             holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
-            holder.person_birthday.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+            holder.person_birthday.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_BIRTHDAY)));
             holder.double_ok.setVisibility(View.VISIBLE);
             holder.undoButton.setVisibility(View.GONE);
             holder.undoButton.setOnClickListener(null);

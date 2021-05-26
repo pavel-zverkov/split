@@ -2,6 +2,7 @@ package ru.zverkov_studio.split;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 public class ActivityEvent extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,7 @@ public class ActivityEvent extends AppCompatActivity {
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
 
                     AdapterPersonsEvent adapterPersonsEvent = new AdapterPersonsEvent(getContext());
+                    Log.d("track", "activity_event");
                     persons_list.setAdapter(adapterPersonsEvent);
 
                     if (persons_list.getAdapter().getItemCount() != 0){
@@ -102,6 +105,7 @@ public class ActivityEvent extends AppCompatActivity {
                     else{
                         attention.setVisibility(View.VISIBLE);
                     }
+
 
                     break;
                 case 2:

@@ -2,7 +2,9 @@ package ru.zverkov_studio.split;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -37,11 +40,13 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
     Cursor mCursor;
 
     long[][] times;
+    long time;
     HashMap<Integer, long[]> times_array = new HashMap<>();
     HashMap<Integer, Integer> on_track = new HashMap<>();
-    long start_time, start_lap_time;
+    long start_time, start_lap_time, finish_time;
 
     ArrayList<Integer> position_click = new ArrayList<>();
+    ArrayList<Integer> finished = new ArrayList<>();
 
     boolean undoOn = true;
     private Handler handler = new Handler(); // hanlder for running delayed runnables
@@ -58,12 +63,8 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
             item = mCursor.getInt(0);
             times_array.put(item, new long[track.size()]);
             on_track.put(item, 0);
-
         }
-        for (int key: on_track.keySet()){
-            Log.d("AdapterEvents", String.valueOf(key) + ": " + String.valueOf(on_track.get(key)));
-        }
-
+        persons.put_times(times_array);
     }
     @NonNull
     @Override
@@ -73,6 +74,7 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("AdapterEvents", "onBind  " + String.valueOf(position));
@@ -81,13 +83,15 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
         Log.d("AdapterEvents", "item  " + String.valueOf(item));
 
         holder.id = item;
-        holder.number.setText(String.valueOf(position + 1));
+        holder.number.setText(String.valueOf(item));
         holder.sportsman_name.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_NAME)));
         holder.distance_point.setText("");
+
         if (!position_click.contains(item)){
             holder.stopwatch.stop_setting();
             holder.main_time.setText("СТАРТ");
             holder.lap_time.setText("");
+            holder.highlight.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.dark_red)));
         }
         else {
             //start_time = times[position][0];
@@ -96,20 +100,39 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
             Log.d("AdapterEvents", "point " + String.valueOf(on_track.get(item)));
             start_time = times_array.get(item)[0];
             start_lap_time = times_array.get(item)[on_track.get(item) - 1];
-
+            holder.distance_point.setText(track.get(on_track.get(item)));
             holder.stopwatch.run_setting(holder.main_time, holder.lap_time, start_time, start_lap_time);
+            holder.highlight.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.dark_green)));
+        }
+        if (finished.contains(item)){
+            Log.d("AdapterEvents", "finished " + String.valueOf(item));
+            holder.stopwatch.stop_setting();
+            start_time = times_array.get(item)[0];
+            start_lap_time = times_array.get(item)[on_track.get(item) - 1];
+            finish_time = times_array.get(item)[on_track.get(item)];
+            holder.stopwatch.getTimes(holder.main_time, holder.lap_time, start_time, start_lap_time, finish_time);
+            holder.distance_point.setText(track.get(on_track.get(item)));
+            holder.highlight.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.asbestos)));
         }
         holder.button_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCursor.moveToPosition(position);
                 item = mCursor.getInt(0);
-                Log.d("AdapterEvents", "Click " + String.valueOf(position));
-                Log.d("AdapterEvents", "point_before_click " + String.valueOf(on_track.get(item)));
-                Log.d("AdapterEvents", "item_click " + String.valueOf(item));
+                if (finished.contains(item)){
+                    return;
+                }
+
                 //times[position][holder.point] = SystemClock.uptimeMillis();
                 times_array.get(item)[on_track.get(item)] = SystemClock.uptimeMillis();
+
+                if (on_track.get(item) == track.size() - 1){
+                    finished.add(item);
+                    notifyItemChanged(position);
+                    return;
+                }
                 on_track.put(item, on_track.get(item) + 1);
+                holder.distance_point.setText(track.get(on_track.get(item)));
 
                 Log.d("AdapterEvents", "holder_point_after_click " + String.valueOf(on_track.get(item)));
                 position_click.add(item);
@@ -117,8 +140,13 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
                 for (int key: on_track.keySet()){
                     Log.d("AdapterEvents", String.valueOf(key) + ": " + String.valueOf(on_track.get(key)));
                 }
+                persons.put_times(times_array);
             }
         });
+    }
+
+    public void off(int position){
+
     }
 
     public void change(Cursor cursor){
@@ -126,9 +154,9 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
     }
 
     public void remove(int position) {
-        /*activity_data.remove_from_activity((String[]) mData.get(position));
-        mData.remove(position);
-        notifyItemRemoved(position);*/
+        persons.delRec(TABLE_DECLARED, mCursor.getInt(0));
+        mCursor = persons.getAllData(TABLE_DECLARED, null);
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -138,7 +166,7 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         int id, point;
-        TextView sportsman_name, main_time, lap_time, distance_point, number;
+        TextView sportsman_name, main_time, lap_time, distance_point, number, highlight;
         LinearLayout button_time;
         Stopwatch stopwatch;
 
@@ -150,8 +178,12 @@ public class AdapterPersonsEvent extends RecyclerView.Adapter<AdapterPersonsEven
             distance_point = itemView.findViewById(R.id.distance_point);
             number = itemView.findViewById(R.id.number);
             button_time = itemView.findViewById(R.id.catch_time);
+            highlight = itemView.findViewById(R.id.side_highlight);
             stopwatch = new Stopwatch();
             point = 0;
+            if (track.size() == 2){
+                lap_time.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
