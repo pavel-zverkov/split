@@ -123,6 +123,7 @@ public class FragmentPlayList extends Fragment {
                     RecyclerView track_list = view.findViewById(R.id.track_list);
                     track_list.setLayoutManager(new LinearLayoutManager(getContext()));
                     AdapterTrack adapter = new AdapterTrack(getContext());
+                    Log.d("track", "fragment_playlist");
                     track_list.setAdapter(adapter);
 
                     ItemTouchHelperTrack itemTouchHelperTrack = new ItemTouchHelperTrack(getContext(), track_list, 0, ItemTouchHelper.LEFT);

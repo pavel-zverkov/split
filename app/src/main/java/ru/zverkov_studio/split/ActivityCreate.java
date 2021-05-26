@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ActivityCreate extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = "ActivityCreate";
+    public static Context CONTEXT;
 
     int float_button_mode;
     DataBasePersons persons;
@@ -39,6 +41,7 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        CONTEXT = ActivityCreate.this;
 
         open_DB();
 

@@ -57,7 +57,7 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
 
         holder.id = item;
         holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
-        holder.person_birthday.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+        holder.person_birthday.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_BIRTHDAY)));
     }
 
     public void change(Cursor cursor){
@@ -95,5 +95,9 @@ public class AdapterClubCreate extends RecyclerView.Adapter<AdapterClubCreate.Vi
     public void open_DB(){
         persons = new DataBasePersons(mContext);
         persons.open();
+    }
+
+    public long getItemId(int position) {
+        return position;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class DataBaseEvents {
 
     private static final String[] event_data = new String[4];
     private static final ArrayList<String> track = new ArrayList<String>();
+    private static HashMap<Integer, long[]> times;
 
     private static final String DB_NAME = "activities";
     private static final int DB_VERSION = 1;
@@ -36,7 +38,11 @@ public class DataBaseEvents {
     private SQLiteDatabase mDB;
 
     public DataBaseEvents(Context context) {
+
         mContext = context;
+        for (String point: track){
+            Log.d("track", point);
+        }
     }
 
     // открыть подключение
@@ -129,6 +135,8 @@ public class DataBaseEvents {
     public ArrayList<String> get_track() {
         return track;
     }
+
+
 
     // класс по созданию и управлению БД
     private class DBHelper extends SQLiteOpenHelper {

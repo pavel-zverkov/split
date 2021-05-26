@@ -26,6 +26,37 @@ public class Stopwatch {
         handler.removeCallbacks(runnable);
     }
 
+    public void getTimes(TextView main_time, TextView lap_time, long start_time, long start_lap_time, long finish_time){
+        handler.removeCallbacks(runnable);
+        timer = main_time;
+        lap_timer = lap_time;
+
+        MillisecondTime_main = finish_time - start_time;
+        UpdateTime = MillisecondTime_main;
+        Seconds = (int) (UpdateTime / 1000);
+        Minutes = Seconds / 60;
+        Hours = Minutes / 60;
+        Seconds = Seconds % 60;
+        MilliSeconds = (int) (UpdateTime  % 1000 / 100);
+        timer.setText(String.format("%02d", Hours) + ":"
+                + String.format("%02d", Minutes) + ":"
+                + String.format("%02d", Seconds) + "."
+                + String.format("%d", MilliSeconds));
+
+        MillisecondTime_lap = finish_time - start_lap_time;
+        UpdateTime = MillisecondTime_lap;
+        Seconds = (int) (UpdateTime / 1000);
+        Minutes = Seconds / 60;
+        Hours = Minutes / 60;
+        Seconds = Seconds % 60;
+        MilliSeconds = (int) (UpdateTime  % 1000 / 100);
+
+        lap_timer.setText(String.format("%02d", Hours) + ":"
+                + String.format("%02d", Minutes) + ":"
+                + String.format("%02d", Seconds) + "."
+                + String.format("%d", MilliSeconds));
+    }
+
     public Runnable runnable = new Runnable() {
 
         public void run() {
@@ -35,7 +66,7 @@ public class Stopwatch {
             Minutes = Seconds / 60;
             Hours = Minutes / 60;
             Seconds = Seconds % 60;
-            MilliSeconds = (int) (UpdateTime % 10);
+            MilliSeconds = (int) (UpdateTime  % 1000 / 100);
             timer.setText(String.format("%02d", Hours) + ":"
                     + String.format("%02d", Minutes) + ":"
                     + String.format("%02d", Seconds) + "."
@@ -47,7 +78,7 @@ public class Stopwatch {
             Minutes = Seconds / 60;
             Hours = Minutes / 60;
             Seconds = Seconds % 60;
-            MilliSeconds = (int) (UpdateTime % 10);
+            MilliSeconds = (int) (UpdateTime  % 1000 / 100);
 
             lap_timer.setText(String.format("%02d", Hours) + ":"
                     + String.format("%02d", Minutes) + ":"

@@ -40,8 +40,10 @@ public class FragmentClubCreate extends Fragment {
         RecyclerView club_list = club_create_fragment.findViewById(R.id.club_create_list);
         club_list.setLayoutManager(new LinearLayoutManager(mContext));
         AdapterClubCreate adapter = new AdapterClubCreate(mContext);
+        adapter.setHasStableIds(true);
         club_list.setAdapter(adapter);
         Log.d("myLog", String.valueOf(mContext) + " " + String.valueOf(club_create_fragment.getContext()));
+
 
         ItemTouchHelperClubCreate simpleItemTouchCallback = new ItemTouchHelperClubCreate(club_create_fragment.getContext(), club_list, 0, ItemTouchHelper.LEFT);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);

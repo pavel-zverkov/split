@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.Date;
+import java.util.HashMap;
 
 public class DataBasePersons {
 
@@ -16,6 +18,7 @@ public class DataBasePersons {
     private static final String TABLE_DECLARED = "declared_table";
     private static final String TABLE_UNDECLARED = "undeclared_table";
 
+
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BIRTHDAY = "birthday";
@@ -23,6 +26,8 @@ public class DataBasePersons {
     public static final String COLUMN_GENDER = "gender";
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EMAIL = "email";
+
+    private static final HashMap<Integer, long[]> times = new HashMap<>();
 
     private static final String TABLE_CLUB_CREATE;
     static {
@@ -140,6 +145,35 @@ public class DataBasePersons {
         mDB.execSQL(String.format("drop table if exists %s", TABLE_UNDECLARED));
     }
 
+
+    public void put_times(HashMap<Integer, long[]> times_array){
+        for (int key: times_array.keySet()){
+            times.put(key, times_array.get(key));
+        }
+        Log.d("DataBase put_times", String.valueOf(times));
+    }
+
+    public HashMap<String, Long> get_times(int position) {
+        HashMap<String, Long> point_times = new HashMap<String, Long>();
+        long start_time, time;
+        Cursor name;
+        Log.d("DataBase get_times", String.valueOf(times));
+        for(int key: times.keySet()){
+            start_time = times.get(key)[0];
+            time = times.get(key)[position];
+            if (start_time != 0 & time != 0){
+                name = mDB.query(TABLE_DECLARED, null, COLUMN_ID + " = " + key, null, null, null, null);
+                Log.d("Recording", String.valueOf(name.getCount()));
+                name.moveToFirst();
+                point_times.put(name.getString(name.getColumnIndex(COLUMN_NAME)), time - start_time);
+            }
+        }
+        for(String key: point_times.keySet()){
+            Log.d("Database getting times", key + point_times.get(key).toString());
+        }
+
+        return point_times;
+    }
 
     // класс по созданию и управлению БД
     private class DBHelper extends SQLiteOpenHelper {

@@ -56,7 +56,7 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
 
         holder.id = item;
         holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
-        holder.person_gender.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_ID)));
+        holder.person_gender.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_GENDER)));
     }
 
     public void change(Cursor cursor){
