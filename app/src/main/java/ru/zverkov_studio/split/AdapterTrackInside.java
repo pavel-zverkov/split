@@ -31,13 +31,15 @@ import java.util.stream.Stream;
 public class AdapterTrackInside extends RecyclerView.Adapter<AdapterTrackInside.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
+    private static boolean mStatus;
+    private static int mPosition;
 
     private Context mContext;
     DataBasePersons persons;
     private static final String TABLE_TRACK = "track_points_table";
     int mSport;
     int icon_sport;
-    long MillisecondTime_main, MillisecondTime_lap, StartTime_main, StartTime_lap, UpdateTime = 0L ;
+    long MillisecondTime_main, UpdateTime = 0L ;
     int Hours, Seconds, Minutes, MilliSeconds ;
 
 
@@ -48,8 +50,10 @@ public class AdapterTrackInside extends RecyclerView.Adapter<AdapterTrackInside.
     Object[] names;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public AdapterTrackInside(Context context, int position){
+    public AdapterTrackInside(Context context, int position, boolean status){
         mContext = context;
+        mStatus = status;
+        mPosition = position;
         open_DB();
 
         data = sortByValue(persons.get_times(position));
@@ -67,7 +71,24 @@ public class AdapterTrackInside extends RecyclerView.Adapter<AdapterTrackInside.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(String.valueOf(names[position]));
-        holder.time.setText(String.valueOf(set_time(data.get(names[position]))));
+        if (mPosition == 0){
+            if (position == 0){
+                holder.time.setText(String.valueOf(set_time(data.get(names[position]) - data.get(names[0]))));
+            }
+            else {
+                holder.time.setText("+" + String.valueOf(set_time(data.get(names[position]) - data.get(names[0]))));
+            }
+        }
+        else {
+            if (mStatus == true){
+                    holder.time.setText(String.valueOf(set_time(data.get(names[position]) - data.get(names[0]))));
+                }
+            else{
+                holder.time.setText(String.valueOf(set_time(data.get(names[position]))));
+            }
+        }
+
+
     }
 
     @Override

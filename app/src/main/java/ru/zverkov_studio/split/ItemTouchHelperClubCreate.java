@@ -62,7 +62,7 @@ public class ItemTouchHelperClubCreate extends ItemTouchHelper.SimpleCallback {
         }
 
         // draw red background
-        background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+        background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + (int) dX, itemView.getBottom());
         background.draw(c);
 
         // draw x mark
@@ -70,8 +70,8 @@ public class ItemTouchHelperClubCreate extends ItemTouchHelper.SimpleCallback {
         int intrinsicWidth = xMark.getIntrinsicWidth();
         int intrinsicHeight = xMark.getIntrinsicWidth();
 
-        int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
-        int xMarkRight = itemView.getRight() - xMarkMargin;
+        int xMarkLeft = itemView.getLeft() + xMarkMargin;
+        int xMarkRight = itemView.getLeft() + xMarkMargin + intrinsicWidth;
         int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight)/2;
         int xMarkBottom = xMarkTop + intrinsicHeight;
         xMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);

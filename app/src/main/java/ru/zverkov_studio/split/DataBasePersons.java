@@ -165,7 +165,13 @@ public class DataBasePersons {
                 name = mDB.query(TABLE_DECLARED, null, COLUMN_ID + " = " + key, null, null, null, null);
                 Log.d("Recording", String.valueOf(name.getCount()));
                 name.moveToFirst();
-                point_times.put(name.getString(name.getColumnIndex(COLUMN_NAME)), time - start_time);
+                if (position == 0){
+                    point_times.put(name.getString(name.getColumnIndex(COLUMN_NAME)), start_time);
+                }
+                else {
+                    point_times.put(name.getString(name.getColumnIndex(COLUMN_NAME)), time - start_time);
+                }
+
             }
         }
         for(String key: point_times.keySet()){
