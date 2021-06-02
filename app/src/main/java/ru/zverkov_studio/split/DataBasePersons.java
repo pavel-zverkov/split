@@ -12,10 +12,10 @@ import java.util.HashMap;
 
 public class DataBasePersons {
 
+    public static final String TABLE_DECLARED = "declared_table";
     private static final String DB_NAME = "persons";
     private static final int DB_VERSION = 1;
     private static final String TABLE_CLUB = "club_table";
-    private static final String TABLE_DECLARED = "declared_table";
     private static final String TABLE_UNDECLARED = "undeclared_table";
 
 

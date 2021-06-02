@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,10 +27,13 @@ import java.util.ArrayList;
 
 public class ActivityEvent extends AppCompatActivity {
 
+    public static DataBasePersons persons;
+    public static Context mContext;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_play_list);
+        setContentView(R.layout.activity_event);
+        mContext = ActivityEvent.this;
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(
@@ -38,7 +42,7 @@ public class ActivityEvent extends AppCompatActivity {
         // Передаём ViewPager в TabLayout
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
+        open_DB();
     }
 
     public class SampleFragmentPagerAdapterEvent extends FragmentPagerAdapter {
@@ -78,35 +82,27 @@ public class ActivityEvent extends AppCompatActivity {
             mPage = page;
         }
 
-        @Override public void onCreate(Bundle savedInstanceState) {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             if (getArguments() != null) {
                 mPage = getArguments().getInt(ARG_PAGE);
             }
         }
 
-        @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                            Bundle savedInstanceState) {
+
             View view = null;
             switch (mPage){
                 case 1:
                     view = inflater.inflate(R.layout.page_persons, container, false);
-                    LinearLayout attention = view.findViewById(R.id.persons_attention);
                     RecyclerView persons_list = view.findViewById(R.id.persons_list);
                     persons_list.setLayoutManager(new LinearLayoutManager(getContext()));
-
                     AdapterPersonsEvent adapterPersonsEvent = new AdapterPersonsEvent(getContext());
                     Log.d("track", "activity_event");
                     persons_list.setAdapter(adapterPersonsEvent);
-
-                    if (persons_list.getAdapter().getItemCount() != 0){
-                        attention.setVisibility(View.GONE);
-                    }
-                    else{
-                        attention.setVisibility(View.VISIBLE);
-                    }
-
-
                     break;
                 case 2:
                     view = inflater.inflate(R.layout.page_track, container, false);
@@ -117,10 +113,29 @@ public class ActivityEvent extends AppCompatActivity {
 
                     FloatingActionButton addButton = view.findViewById(R.id.add_track_point);
                     addButton.setVisibility(View.GONE);
+
+                    FloatingActionButton stop_button = view.findViewById(R.id.stop_button);
+                    stop_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (persons.get_times(adapter.getItemCount() - 1).size() != persons.getAllData(DataBasePersons.TABLE_DECLARED, null).getCount()){
+                                Toast.makeText(mContext, "Не все участники финишировали", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                getActivity().finish();
+                                ActivityCreate.fa.finish();
+                            }
+                        }
+                    });
                     break;
             }
 
             return view;
         }
+    }
+
+    public void open_DB(){
+        persons = new DataBasePersons(this);
+        persons.open();
     }
 }

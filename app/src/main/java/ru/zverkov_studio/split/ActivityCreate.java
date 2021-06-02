@@ -1,5 +1,6 @@
 package ru.zverkov_studio.split;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,12 +38,14 @@ public class ActivityCreate extends AppCompatActivity implements View.OnClickLis
     public static final String COLUMN_KIND_SPORT = "kind_sport";
     public static final String COLUMN_KIND_START = "kind_start";
 
+    public static Activity fa;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         CONTEXT = ActivityCreate.this;
-
+        fa = this;
         open_DB();
 
         float_button = (FloatingActionButton) findViewById(R.id.float_button_create);

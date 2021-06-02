@@ -137,7 +137,13 @@ public class FragmentPlayList extends Fragment {
                             adapter.add("ПРОМЕЖУТОК");
                         }
                     });
+
+                    FloatingActionButton stop_button = view.findViewById(R.id.stop_button);
+                    stop_button.setVisibility(View.GONE);
                     break;
+
+
+
             }
 
             return view;
