@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class FragmentClubCreate extends Fragment {
 
@@ -37,6 +38,7 @@ public class FragmentClubCreate extends Fragment {
 
     public void create_recyclerview() {
         Log.d("myLog", "Creating recyclerview");
+        TextView attention = club_create_fragment.findViewById(R.id.declared_attention);
         RecyclerView club_list = club_create_fragment.findViewById(R.id.club_create_list);
         club_list.setLayoutManager(new LinearLayoutManager(mContext));
         AdapterClubCreate adapter = new AdapterClubCreate(mContext);
@@ -44,8 +46,13 @@ public class FragmentClubCreate extends Fragment {
         club_list.setAdapter(adapter);
         Log.d("myLog", String.valueOf(mContext) + " " + String.valueOf(club_create_fragment.getContext()));
 
-
-        ItemTouchHelperClubCreate simpleItemTouchCallback = new ItemTouchHelperClubCreate(club_create_fragment.getContext(), club_list, 0, ItemTouchHelper.LEFT);
+        if (adapter.getItemCount() == 0){
+            attention.setVisibility(View.VISIBLE);
+        }
+        else{
+            attention.setVisibility(View.GONE);
+        }
+        ItemTouchHelperClubCreate simpleItemTouchCallback = new ItemTouchHelperClubCreate(club_create_fragment.getContext(), club_list, 0, ItemTouchHelper.RIGHT);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         mItemTouchHelper.attachToRecyclerView(club_list);
     }

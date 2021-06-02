@@ -28,6 +28,7 @@ import java.util.List;
 public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.ViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 1000; // 3sec
+    private static boolean mStatus = true;
 
     private Context mContext;
     DataBaseEvents events;
@@ -35,6 +36,8 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.ViewHolder> 
     private static final String TABLE_TRACK = "track_points_table";
     int mSport;
     int icon_sport;
+
+    AdapterTrackInside adapter = null;
 
     List<String> itemsPendingRemoval;
     List<String> track;
@@ -75,9 +78,26 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.ViewHolder> 
         }
         if (expandable.contains(position)){
             holder.sub_item.setVisibility(View.VISIBLE);
-            AdapterTrackInside adapter = new AdapterTrackInside(mContext, position);
+
+            holder.track_point_info.setText("Нарастающий итог");
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                adapter = new AdapterTrackInside(mContext, position, false);
+            }
+
             holder.list_inside_point.setLayoutManager(new LinearLayoutManager(mContext));
             holder.list_inside_point.setAdapter(adapter);
+            holder.list_inside_point.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Split", "onclick");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        adapter = new AdapterTrackInside(mContext, position, !mStatus);
+                        holder.list_inside_point.setAdapter(adapter);
+                        holder.track_point_info.setText("Сплит");
+                        notifyItemChanged(position);
+                    }
+                }
+            });
         }
         else{
             holder.sub_item.setVisibility(View.GONE);
@@ -126,7 +146,7 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         String id;
-        TextView side_highlight, track_point;
+        TextView side_highlight, track_point, quant_persons, track_point_info;
         ImageView sport;
         LinearLayout sub_item;
         RecyclerView list_inside_point;
@@ -140,6 +160,8 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.ViewHolder> 
             sub_item = itemView.findViewById(R.id.sub_item_track);
             list_inside_point = itemView.findViewById(R.id.list_inside_point);
             card_item = itemView.findViewById(R.id.point_card);
+            quant_persons = itemView.findViewById(R.id.quantity_persons);
+            track_point_info = itemView.findViewById(R.id.track_point_info);
         }
     }
 

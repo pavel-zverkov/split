@@ -47,6 +47,7 @@
                         android:gravity="bottom"/>
 
                     <TextView
+                        android:id="@+id/quantity_persons"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:text=""
@@ -81,7 +82,7 @@
                     android:layout_marginLeft="20dp"/>
 
                 <TextView
-                    android:id="@+id/track_attention"
+                    android:id="@+id/track_point_info"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginLeft="23dp"
@@ -98,7 +99,8 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="30dp"
-                    android:id="@+id/list_inside_point"/>
+                    android:id="@+id/list_inside_point"
+                    android:clickable="true"/>
 
             </LinearLayout>
         </LinearLayout>

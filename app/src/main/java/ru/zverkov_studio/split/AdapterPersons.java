@@ -57,6 +57,7 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
         holder.id = item;
         holder.person_name.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME)));
         holder.person_gender.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_GENDER)));
+        holder.person_birthday.setText(mCursor.getString(mCursor.getColumnIndex(DataBasePersons.COLUMN_BIRTHDAY)));
     }
 
     public void change(Cursor cursor){
@@ -82,12 +83,13 @@ public class AdapterPersons extends RecyclerView.Adapter<AdapterPersons.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         String id;
-        TextView person_name, person_gender, number;
+        TextView person_name, person_gender, number, person_birthday;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             person_name = itemView.findViewById(R.id.person_activity_name);
             person_gender = itemView.findViewById(R.id.person_activity_gender);
+            person_birthday = itemView.findViewById(R.id.person_activity_birthday);
         }
     }
     public void open_DB(){

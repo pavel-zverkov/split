@@ -20,6 +20,15 @@
             android:layout_weight="1"
             android:layout_marginTop="30dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/silver"
+            android:layout_gravity="center"
+            android:text="В календаре нет событий"
+            android:id="@+id/calendar_attention"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activities_list"
             android:layout_width="match_parent"
